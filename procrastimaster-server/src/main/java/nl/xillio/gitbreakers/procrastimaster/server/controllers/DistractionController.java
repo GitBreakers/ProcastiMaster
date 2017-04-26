@@ -18,7 +18,9 @@ package nl.xillio.gitbreakers.procrastimaster.server.controllers;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Distraction;
 import nl.xillio.gitbreakers.procrastimaster.server.services.DistractionService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("distractions")
 public class DistractionController extends AbstractEntityController<Distraction, DistractionService> {
 }

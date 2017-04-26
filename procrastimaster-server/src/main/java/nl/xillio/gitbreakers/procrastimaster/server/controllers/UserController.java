@@ -18,7 +18,9 @@ package nl.xillio.gitbreakers.procrastimaster.server.controllers;
 import nl.xillio.gitbreakers.procrastimaster.server.model.User;
 import nl.xillio.gitbreakers.procrastimaster.server.services.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("users")
 public class UserController extends AbstractEntityController<User, UserService> {
 }

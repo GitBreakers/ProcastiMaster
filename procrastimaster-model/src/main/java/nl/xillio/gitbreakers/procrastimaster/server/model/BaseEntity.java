@@ -15,15 +15,16 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by_user_id")
     private User createdBy;
 
     public Integer getId() {

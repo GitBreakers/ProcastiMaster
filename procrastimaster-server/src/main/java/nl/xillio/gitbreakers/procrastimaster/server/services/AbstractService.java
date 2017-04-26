@@ -16,18 +16,42 @@
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.BaseEntity;
+import nl.xillio.gitbreakers.procrastimaster.server.model.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.NoSuchElementException;
 
 public abstract class AbstractService<T extends BaseEntity, R extends AbstractRepository<T>> {
     @Autowired
     private R repository;
 
-    public R getRepository() {
+    protected R getRepository() {
         return repository;
     }
 
     void setRepository(R repository) {
         this.repository = repository;
+    }
+
+    public Iterable<T> getAll() {
+        return repository.findAll();
+    }
+
+    public T get(Integer id) {
+        T result = repository.findOne(id);
+
+        if (result == null) {
+            throw new NoSuchElementException();
+        }
+
+        return result;
+    }
+
+    public void save(T entity, User owner) {
+        if (entity.getId() == null) {
+            entity.setCreatedBy(owner);
+        }
+        repository.save(entity);
     }
 }
