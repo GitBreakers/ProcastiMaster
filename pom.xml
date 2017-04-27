@@ -45,7 +45,7 @@
         <java.version>1.8</java.version>
 
         <!-- Dependency Versions -->
-        <hibernate.jpa.javax.version>1.0.0.FINAL</hibernate.jpa.javax.version>
+        <hibernate.jpa.javax.version>1.0.0.Final</hibernate.jpa.javax.version>
     </properties>
 
     <dependencyManagement>
