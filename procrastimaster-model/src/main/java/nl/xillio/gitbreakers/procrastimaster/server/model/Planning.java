@@ -17,6 +17,12 @@ package nl.xillio.gitbreakers.procrastimaster.server.model;
 
 import javax.persistence.Entity;
 
+/**
+ * This class represents the post every working team member creates in the morning. It is simply an estimation of
+ * what that member expects to do today.
+ *
+ * @author Thomas Biesaart
+ */
 @Entity
 public class Planning extends BaseEntity {
     private String myFocus;

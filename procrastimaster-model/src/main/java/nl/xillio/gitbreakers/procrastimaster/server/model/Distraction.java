@@ -18,11 +18,17 @@ package nl.xillio.gitbreakers.procrastimaster.server.model;
 import javax.persistence.Entity;
 import java.net.URL;
 
+/**
+ * This class describes an item that can be collected in a user's procrastination feed.
+ * It can refer to external web pages, images or simply contain some text.
+ *
+ * @author Thomas Biesaart.
+ */
 @Entity
 public class Distraction extends BaseEntity {
-    String text;
-    URL image;
-    URL link;
+    private String text;
+    private URL image;
+    private URL link;
 
     public String getText() {
         return text;

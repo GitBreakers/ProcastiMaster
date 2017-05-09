@@ -17,6 +17,11 @@ package nl.xillio.gitbreakers.procrastimaster.server.model;
 
 import javax.persistence.*;
 
+/**
+ * This class represents the base of every entity in the ProcrastiMaster domain model.
+ *
+ * @author Thomas Biesaart
+ */
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id

@@ -18,6 +18,12 @@ package nl.xillio.gitbreakers.procrastimaster.server.model;
 import javax.persistence.Entity;
 import java.util.Date;
 
+/**
+ * This class represents the post every working team member creates at the end of the day, telling the other team
+ * members what they have been working on today.
+ *
+ * @author Thomas Biesaart
+ */
 @Entity
 public class Update extends BaseEntity {
     private String todayIHave;

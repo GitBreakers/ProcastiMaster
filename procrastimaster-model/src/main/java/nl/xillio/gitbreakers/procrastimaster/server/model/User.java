@@ -19,6 +19,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 
+/**
+ * This class represents an authenticated user of ProcrastiMaster.
+ *
+ * @author Thomas Biesaart
+ */
 @Entity
 public class User extends BaseEntity {
     private String name;
