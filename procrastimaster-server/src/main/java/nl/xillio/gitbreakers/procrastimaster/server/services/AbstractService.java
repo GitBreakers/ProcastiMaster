@@ -22,6 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.NoSuchElementException;
 
+/**
+ * This service is responsible for all generic entity operations.
+ * All operations which are implemented here, will be available to all entity services.
+ *
+ * @param <T> The type of entity that is managed by this service
+ * @param <R> The type of the repository used by this service
+ */
 public abstract class AbstractService<T extends BaseEntity, R extends AbstractRepository<T>> {
     @Autowired
     private R repository;
@@ -46,6 +53,10 @@ public abstract class AbstractService<T extends BaseEntity, R extends AbstractRe
         }
 
         return result;
+    }
+
+    public void delete(Integer id) {
+        repository.delete(id);
     }
 
     public void save(T entity, User owner) {
