@@ -62,7 +62,7 @@ public class OverviewController implements Initializable {
         username.setText("Jorn Verhoeven");
 
         // Load overview components
-        loadInto(FXMLLoaderService.View.PAST, overviewLeft);
+        loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
         loadInto(FXMLLoaderService.View.LOG, workspaceLeft);
