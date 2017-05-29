@@ -41,8 +41,3 @@ groups:
     required: 1
     teams:
       - architect
-
-  test-engineer:
-    required: 1
-    teams:
-      - test-engineer
