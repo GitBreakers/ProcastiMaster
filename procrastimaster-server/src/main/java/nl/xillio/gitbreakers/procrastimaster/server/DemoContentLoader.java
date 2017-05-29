@@ -47,6 +47,7 @@ public class DemoContentLoader implements CommandLineRunner {
         // Create users
         User pieter = new User();
         pieter.setName("Pieter");
+        pieter.setPassword("root");
         pieter.setEmail("pieter@GitBreakers.nl");
 
         userService.save(pieter, null);
