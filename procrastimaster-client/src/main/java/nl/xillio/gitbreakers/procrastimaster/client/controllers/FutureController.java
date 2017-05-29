@@ -15,23 +15,27 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Control;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+<<<<<<< Updated upstream
  * Created by Jorn on 29/05/2017.
  */
 public class FutureController implements Initializable {
@@ -40,7 +44,7 @@ public class FutureController implements Initializable {
     Text title;
 
     @FXML
-    TableView<Entry> tableView;
+    TableView tableView;
 
     @FXML
     TableColumn<String, String> userColumn;
@@ -48,13 +52,15 @@ public class FutureController implements Initializable {
     @FXML
     TableColumn<String, String> infoColumn;
 
-    ObservableList<Entry> data =
+    ObservableList<TableEntry> data =
             FXCollections.observableArrayList(
-                    new Entry("Dwight", "Monday @ XHQ"),
-                    new Entry("Luca", "Monday @ XHQ"),
-                    new Entry("Pieter", "Tuesday @ Home"),
-                    new Entry("Thomas", "Next week")
+                    new TableEntry("Dwight", "Monday @ XHQ"),
+                    new TableEntry("Luca", "Monday @ XHQ"),
+                    new TableEntry("Pieter", "Tuesday @ Home"),
+                    new TableEntry("Thomas", "Next week")
             );
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,52 +70,48 @@ public class FutureController implements Initializable {
         tableView.setItems(data);
         title.setText("Future");
 
-        tableView.widthProperty().addListener(new ChangeListener<Number>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth)
-            {
-                //Don't show header
-                Pane header = (Pane) tableView.lookup("TableHeaderRow");
-                if (header.isVisible()){
-                    header.setMaxHeight(0);
-                    header.setMinHeight(0);
-                    header.setPrefHeight(0);
-                    header.setVisible(false);
-                }
+        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
+            //Don't show header
+            Pane header = (Pane) tableView.lookup("TableHeaderRow");
+            if (header.isVisible()){
+                header.setMaxHeight(0);
+                header.setMinHeight(0);
+                header.setPrefHeight(0);
+                header.setVisible(false);
             }
         });
-    }
 
-    public class Entry
-    {
-        private SimpleStringProperty user;
-        private SimpleStringProperty info;
 
-        private Entry(String user, String info)
-        {
-            this.user = new SimpleStringProperty(user);
-            this.info = new SimpleStringProperty(info);
-        }
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        public String getUser()
-        {
-            return user.get();
-        }
+        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
+            //Don't show header
+            Pane header1 = (Pane) tableView.lookup("TableHeaderRow");
+            if (header1.isVisible()){
+                header1.setMaxHeight(0);
+                header1.setMinHeight(0);
+                header1.setPrefHeight(0);
+                header1.setVisible(false);
+            }
+        });
 
-        public void setUser(String user)
-        {
-            this.user.set(user);
-        }
+        infoColumn.setPrefWidth(500);
+        infoColumn.setCellFactory(param -> {
+            TableCell<String, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(cell.getHeight());
+            text.wrappingWidthProperty().bind(infoColumn.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            return cell ;
+        });
 
-        public String getInfo()
-        {
-            return info.get();
-        }
+        userColumn.setMinWidth(Control.USE_COMPUTED_SIZE);
+        userColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.20));
+        infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.79));
 
-        public void setInfo(String info)
-        {
-            this.info.set(info);
-        }
+        userColumn.setResizable(false);
+        infoColumn.setResizable(false);
+
     }
 }

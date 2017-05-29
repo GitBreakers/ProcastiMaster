@@ -22,15 +22,16 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Jorn on 29/05/2017.
- */
+
 public class TodayController implements Initializable {
 
     @FXML
     Text title;
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         title.setText("Today");
+
+
     }
 }
