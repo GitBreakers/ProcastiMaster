@@ -18,9 +18,9 @@ version: 2
 
 group_defaults:
   approve_by_comment:
-    approve_regex: (Approved|:\+1:)
+    approve_regex: ^(Approved|:\+1:)
     enabled: true
-    reject_regex: (Rejected|:-1:)
+    reject_regex: ^(Rejected|:-1:)
   reset_on_push:
     enabled: false
 
@@ -29,7 +29,7 @@ groups:
     required: 1
     users: all
     approve_by_comment:
-      approve_regex: (Approved|:\+1:)\s*Code
+      approve_regex: ^(Approved|:\+1:)\s*Code
       enabled: true
 
   product-manager:
