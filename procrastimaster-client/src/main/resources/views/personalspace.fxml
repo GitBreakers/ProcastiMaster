@@ -15,16 +15,10 @@
     limitations under the License.
 
 -->
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
-<VBox xmlns="http://javafx.com/javafx"
+<HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.TodayController">
-    <Text fx:id="title" text="{Title}"
-          wrappingWidth="320"
-          textAlignment="CENTER">
-        <font><Font name="System Bold" size="24.0" /></font>
-    </Text>
-    <Text>The Today pane is supposed to go here</Text>
-</VBox>
+      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.LogController">
+    <Text>The Personal Space is supposed to go here</Text>
+</HBox>

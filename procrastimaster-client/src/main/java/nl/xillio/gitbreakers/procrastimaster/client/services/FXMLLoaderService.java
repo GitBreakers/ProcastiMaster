@@ -53,7 +53,11 @@ public class FXMLLoaderService {
         OVERVIEW,
         PAST,
         TODAY,
-        FUTURE;
+        FUTURE,
+        LOG,
+        UPDATES,
+        PERSONALSPACE
+        ;
 
         private final URL resource = getClass().getResource("/views/" + name().toLowerCase() + ".fxml");
 

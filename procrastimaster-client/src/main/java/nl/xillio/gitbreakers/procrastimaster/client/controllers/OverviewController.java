@@ -58,6 +58,11 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.PAST, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
+        loadInto(FXMLLoaderService.View.LOG, workspaceLeft);
+        loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
+
+        // After the log has been updated
+        //loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
     }
 
     private void loadInto(FXMLLoaderService.View view, Pane parentPane) {

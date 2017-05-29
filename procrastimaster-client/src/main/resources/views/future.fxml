@@ -17,9 +17,25 @@
 
 -->
 
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml">
-    <Text>I am ghost of christmas yet to come</Text>
-</HBox>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController">
+    <Text fx:id="title" text="Title"
+          wrappingWidth="320"
+          textAlignment="CENTER">
+        <font><Font name="System Bold" size="24.0" /></font>
+    </Text>
+    <TableView fx:id="tableView">
+        <columns>
+            <TableColumn fx:id="userColumn" text="user">
+            </TableColumn>
+            <TableColumn fx:id="infoColumn" text="info">
+            </TableColumn>
+        </columns>
+    </TableView>
+</VBox>
