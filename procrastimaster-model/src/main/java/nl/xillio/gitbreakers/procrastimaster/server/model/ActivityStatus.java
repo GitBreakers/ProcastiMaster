@@ -13,16 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 
-import java.util.Date;
-import java.util.Optional;
+public class ActivityStatus {
+    private Update update;
+    private boolean planned;
 
-public interface UpdateRepository extends AbstractRepository<Update> {
-    Optional<Update> findTopByCreatedByAndNextDayAfterOrderByNextDay(User user, Date after);
 
-    Optional<Update> findTopByCreatedByAndCreatedOnBeforeOrderByCreatedOnDesc(User user, Date before);
+    public Update getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Update update) {
+        this.update = update;
+    }
+
+    public boolean isPlanned() {
+        return planned;
+    }
+
+    public void setPlanned(boolean planned) {
+        this.planned = planned;
+    }
 }

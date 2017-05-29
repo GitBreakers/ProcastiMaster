@@ -15,6 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
+import nl.xillio.gitbreakers.procrastimaster.server.DateUtils;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Today;
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
@@ -50,26 +51,9 @@ public class PlanningService extends AbstractService<Planning, PlanningRepositor
 
     public Optional<Planning> getTodayPlanning(User user) {
         return getRepository().findTopByCreatedOnBetweenAndCreatedBy(
-                todayMidnight(),
-                tonightMidnight(),
+                DateUtils.todayMidnight(),
+                DateUtils.tonightMidnight(),
                 user
         );
-    }
-
-
-    private Date todayMidnight() {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        return c.getTime();
-    }
-
-    private Date tonightMidnight() {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        return c.getTime();
     }
 }
