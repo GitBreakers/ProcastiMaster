@@ -45,10 +45,18 @@
         <java.version>1.8</java.version>
 
         <!-- Dependency Versions -->
+        <hibernate.jpa.javax.version>1.0.0.Final</hibernate.jpa.javax.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate.jpa.javax.version}</version>
+            </dependency>
+
+            <!-- Internal Project Dependencies -->
             <dependency>
                 <groupId>nl.xillio.gitbreakers</groupId>
                 <artifactId>procrastimaster-client</artifactId>

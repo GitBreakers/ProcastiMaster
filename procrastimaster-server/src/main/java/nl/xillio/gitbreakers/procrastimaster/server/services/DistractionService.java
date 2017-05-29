@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server;
+package nl.xillio.gitbreakers.procrastimaster.server.services;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.Distraction;
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
-import nl.xillio.gitbreakers.procrastimaster.server.services.DistractionService;
-import nl.xillio.gitbreakers.procrastimaster.server.services.UserService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import nl.xillio.gitbreakers.procrastimaster.server.repositories.DistractionRepository;
+import org.springframework.stereotype.Service;
 
-@SpringBootApplication
-public class ProcrastiMasterServer {
-    public static void main(String[] args) {
-        SpringApplication.run(ProcrastiMasterServer.class, args);
-    }
+@Service
+public class DistractionService extends AbstractService<Distraction, DistractionRepository> {
 }
