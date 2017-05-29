@@ -24,7 +24,9 @@ import nl.xillio.gitbreakers.procrastimaster.server.repositories.UpdateRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,12 @@ public class UpdateService extends AbstractService<Update, UpdateRepository> {
     @Autowired
     public UpdateService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Override
+    public void save(Update entity, User owner) {
+        setNextWorkingDayToMidnight(entity);
+        super.save(entity, owner);
     }
 
     public History getHistory() {
@@ -61,6 +69,15 @@ public class UpdateService extends AbstractService<Update, UpdateRepository> {
         }
 
         return future;
+    }
+
+    private void setNextWorkingDayToMidnight(Update entity) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(entity.getNextDay());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        entity.setNextDay(calendar.getTime());
     }
 
     private Optional<Update> getLastUpdateWithWorkingDayInFuture(User user) {

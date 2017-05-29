@@ -63,6 +63,12 @@ public class DemoContentLoader implements CommandLineRunner {
 
         userService.save(sander, pieter);
 
+        User thomas = new User();
+        thomas.setName("Thomas");
+        thomas.setEmail("thomas@GitBreakers.nl");
+
+        userService.save(thomas, pieter);
+
         // Create updates/plannings
         Update update = new Update();
         update.setNextDay(new Date());
@@ -83,5 +89,27 @@ public class DemoContentLoader implements CommandLineRunner {
         update.setTodayIHave("Planned a vacation");
         update.setTodayIHaveNot("Done anything productive");
         updateService.save(update, luca);
+
+
+        // Thomas does bad updates every day
+        for (int i = -4; i < 4; i++) {
+            if (i <= 0) {
+                // This is a past day
+                planning = new Planning();
+                planning.setTodayIWill("Do stuff");
+                planning.setNeedHelpWith("Stuff");
+                planning.setMyFocus("My Stuff");
+                planningService.save(planning, thomas);
+                planning.setCreatedOn(new Date(System.currentTimeMillis() + i * DAY));
+                planningService.save(planning, thomas);
+            }
+
+            update = new Update();
+            update.setTodayIHave("Done Stuff");
+            update.setNextDay(new Date(System.currentTimeMillis() + (i + 1) * DAY));
+            updateService.save(update, thomas);
+            update.setCreatedOn(new Date(System.currentTimeMillis() + i * DAY));
+            updateService.save(update, thomas);
+        }
     }
 }
