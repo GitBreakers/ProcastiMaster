@@ -54,18 +54,21 @@ public class DemoContentLoader implements CommandLineRunner {
 
         User luca = new User();
         luca.setName("Luca");
+        luca.setPassword("groot");
         luca.setEmail("luca@GitBreakers.nl");
 
         userService.save(luca, pieter);
 
         User sander = new User();
         sander.setName("Sander");
+        sander.setPassword("doed");
         sander.setEmail("sander@GitBreakers.nl");
 
         userService.save(sander, pieter);
 
         User thomas = new User();
         thomas.setName("Thomas");
+        thomas.setPassword("l00t");
         thomas.setEmail("thomas@GitBreakers.nl");
 
         userService.save(thomas, pieter);

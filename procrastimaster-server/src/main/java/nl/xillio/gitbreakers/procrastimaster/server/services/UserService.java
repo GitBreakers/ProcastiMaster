@@ -17,10 +17,12 @@ package nl.xillio.gitbreakers.procrastimaster.server.services;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -28,9 +30,23 @@ import java.util.Collections;
 
 @Service
 public class UserService extends AbstractService<User, UserRepository> implements UserDetailsService {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void save(User entity, User owner) {
+        // This user is a new user, so we encrypt the password.
+        if (entity.getId() == null) {
+            if (entity.getPassword() == null) {
+                throw new IllegalArgumentException("There is no password provided.");
+            }
+
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
         getRepository().save(entity);
     }
 
@@ -45,7 +61,7 @@ public class UserService extends AbstractService<User, UserRepository> implement
         if (principal instanceof Authentication) {
             Authentication authentication = (Authentication) principal;
             Object userDetails = authentication.getPrincipal();
-            if(userDetails instanceof CustomUserDetails) {
+            if (userDetails instanceof CustomUserDetails) {
                 CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
                 return customUserDetails.user;
             }
