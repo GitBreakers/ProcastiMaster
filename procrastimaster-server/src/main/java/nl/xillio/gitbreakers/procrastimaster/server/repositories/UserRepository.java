@@ -17,5 +17,9 @@ package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 
+import java.util.Optional;
+
 public interface UserRepository extends AbstractRepository<User> {
+
+    Optional<User> findByEmailIgnoreCase(String email);
 }

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2017 Xillio GitBreakers (GitBreakers@xillio.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,28 @@ package nl.xillio.gitbreakers.procrastimaster.server.services;
 
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
-public class UserService extends AbstractService<User, UserRepository> {
+public class UserService extends AbstractService<User, UserRepository> implements UserDetailsService {
 
     @Override
     public void save(User entity, User owner) {
         getRepository().save(entity);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return getRepository().findByEmailIgnoreCase(email)
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        Collections.emptyList()))
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }
