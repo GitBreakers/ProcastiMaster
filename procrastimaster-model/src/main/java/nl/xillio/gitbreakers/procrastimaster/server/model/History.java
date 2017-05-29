@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.controllers;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Planning;
-import nl.xillio.gitbreakers.procrastimaster.server.services.PlanningService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
 
-@RestController
-@RequestMapping("plannings")
-public class PlanningController extends AbstractEntityController<Planning, PlanningService> {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class represents information about the recent activities of the team members.
+ */
+public class History {
+    private List<Update> updates = new ArrayList<>();
+
+    public List<Update> getUpdates() {
+        return updates;
+    }
 }

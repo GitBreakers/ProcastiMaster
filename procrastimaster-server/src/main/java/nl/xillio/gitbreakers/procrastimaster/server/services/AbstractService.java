@@ -15,11 +15,12 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.BaseEntity;
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.BaseEntity;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 /**
@@ -62,7 +63,9 @@ public abstract class AbstractService<T extends BaseEntity, R extends AbstractRe
     public void save(T entity, User owner) {
         if (entity.getId() == null) {
             entity.setCreatedBy(owner);
+            entity.setCreatedOn(new Date());
         }
+
         repository.save(entity);
     }
 }

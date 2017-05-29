@@ -15,26 +15,10 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.controllers;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.BaseEntity;
-import nl.xillio.gitbreakers.procrastimaster.server.services.AbstractService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-public abstract class AbstractEntityController<T extends BaseEntity, S extends AbstractService<T, ?>> {
-    @Autowired
-    private S service;
-
-    protected S getService() {
-        return service;
-    }
-
-    void setService(S service) {
-        this.service = service;
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public Iterable<T> getAll() {
-        return service.getAll();
-    }
+@RestController
+@RequestMapping("feed")
+public class FeedController {
 }

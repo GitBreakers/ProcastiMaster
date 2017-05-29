@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.controllers;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Update;
-import nl.xillio.gitbreakers.procrastimaster.server.services.UpdateService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("updates")
-public class UpdateController extends AbstractEntityController<Update, UpdateService> {
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Today {
+    private List<Planning> plannings = new ArrayList<>();
+
+    public List<Planning> getPlannings() {
+        return plannings;
+    }
 }

@@ -13,14 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.controllers;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
-import nl.xillio.gitbreakers.procrastimaster.server.services.UserService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 
-@RestController
-@RequestMapping("users")
-public class UserController extends AbstractEntityController<User, UserService> {
+import java.util.Date;
+
+public class WorkingDay {
+    private User user;
+    private Date workingDay;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getWorkingDay() {
+        return workingDay;
+    }
+
+    public void setWorkingDay(Date workingDay) {
+        this.workingDay = workingDay;
+    }
 }

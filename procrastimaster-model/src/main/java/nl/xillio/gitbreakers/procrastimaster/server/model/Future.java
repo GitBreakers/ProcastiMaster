@@ -15,32 +15,17 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class represents the base of every entity in the ProcrastiMaster domain model.
- *
- * @author Thomas Biesaart
+ * This class contains the next working day for all team members.
  */
-@MappedSuperclass
-public abstract class BaseEntity {
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class Future {
+    private final List<WorkingDay> workingDays = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "created_by_user_id")
-    private User createdBy;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
+    public List<WorkingDay> getWorkingDays() {
+        return workingDays;
     }
 }

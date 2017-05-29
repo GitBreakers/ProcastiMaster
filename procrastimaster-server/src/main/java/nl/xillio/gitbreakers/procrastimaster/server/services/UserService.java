@@ -15,10 +15,15 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService extends AbstractService<User, UserRepository> {
+
+    @Override
+    public void save(User entity, User owner) {
+        getRepository().save(entity);
+    }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.model;
+package nl.xillio.gitbreakers.procrastimaster.server.model.entity;
 
 import javax.persistence.Entity;
 import java.util.Date;
@@ -34,11 +34,23 @@ public class Update extends BaseEntity {
         return todayIHave;
     }
 
+    public void setTodayIHave(String todayIHave) {
+        this.todayIHave = todayIHave;
+    }
+
     public String getTodayIHaveNot() {
         return todayIHaveNot;
     }
 
+    public void setTodayIHaveNot(String todayIHaveNot) {
+        this.todayIHaveNot = todayIHaveNot;
+    }
+
     public Date getNextDay() {
         return nextDay;
+    }
+
+    public void setNextDay(Date nextDay) {
+        this.nextDay = nextDay;
     }
 }

@@ -15,43 +15,33 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
+public class Overview {
+    private History history;
+    private Today today;
+    private Future future;
 
-/**
- * This class represents an authenticated user of ProcrastiMaster.
- *
- * @author Thomas Biesaart
- */
-@Entity
-public class User extends BaseEntity {
-    private String name;
-    private String email;
-    @JsonIgnore
-    private String password;
-
-    public String getName() {
-        return name;
+    public History getHistory() {
+        return history;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHistory(History history) {
+        this.history = history;
     }
 
-    public String getEmail() {
-        return email;
+    public Today getToday() {
+        return today;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setToday(Today today) {
+        this.today = today;
     }
 
-    public String getPassword() {
-        return password;
+    public Future getFuture() {
+        return future;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFuture(Future future) {
+        this.future = future;
     }
 }

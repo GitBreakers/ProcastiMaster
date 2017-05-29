@@ -15,7 +15,12 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Update;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+
+import java.util.Date;
+import java.util.Optional;
 
 public interface UpdateRepository extends AbstractRepository<Update> {
+    Optional<Update> findTopByCreatedByAndNextDayAfterOrderByCreatedOn(User user, Date after);
 }

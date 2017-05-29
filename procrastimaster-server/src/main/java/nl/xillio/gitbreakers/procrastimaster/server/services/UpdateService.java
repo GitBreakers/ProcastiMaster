@@ -15,10 +15,76 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Update;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Future;
+import nl.xillio.gitbreakers.procrastimaster.server.model.History;
+import nl.xillio.gitbreakers.procrastimaster.server.model.WorkingDay;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.UpdateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Optional;
 
 @Service
 public class UpdateService extends AbstractService<Update, UpdateRepository> {
+    private final UserService userService;
+
+    @Autowired
+    public UpdateService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public void save(Update entity, User owner) {
+        setNextWorkingDayToMidnight(entity);
+        super.save(entity, owner);
+    }
+
+    public History getHistory() {
+        History history = new History();
+
+        for (User user : userService.getAll()) {
+            getLastUpdate(user)
+                    .ifPresent(history.getUpdates()::add);
+        }
+
+        return history;
+    }
+
+    public Future getFuture() {
+        Future future = new Future();
+
+        for (User user : userService.getAll()) {
+            getLastUpdateWithWorkingDayInFuture(user)
+                    .map(update -> {
+                        WorkingDay workingDay = new WorkingDay();
+                        workingDay.setUser(user);
+                        workingDay.setWorkingDay(update.getNextDay());
+                        return workingDay;
+                    }).ifPresent(future.getWorkingDays()::add);
+        }
+
+        return future;
+    }
+
+    private void setNextWorkingDayToMidnight(Update entity) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(entity.getNextDay());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        entity.setNextDay(calendar.getTime());
+    }
+
+    private Optional<Update> getLastUpdateWithWorkingDayInFuture(User user) {
+        return getRepository().findTopByCreatedByAndNextDayAfterOrderByCreatedOn(user, new Date());
+    }
+
+    public Optional<Update> getLastUpdate(User user) {
+        return getRepository().findTopByCreatedByOrderByCreatedOn(user);
+    }
 }
