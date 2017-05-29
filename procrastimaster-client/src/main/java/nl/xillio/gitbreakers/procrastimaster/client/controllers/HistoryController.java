@@ -17,7 +17,6 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -27,25 +26,11 @@ import java.util.ResourceBundle;
 /**
  * Created by Jorn on 29/05/2017.
  */
-public class PastController implements Initializable {
+public class HistoryController implements Initializable {
 
-    @FXML
-    Text title;
-
-    @FXML
-    VBox items;
+    @FXML private Text title;
 
     public void initialize(URL location, ResourceBundle resources) {
         title.setText("History");
-
-        String text[] = new String[]{"And so am I!", "And dont forget about me!", "I am not a ghost, more like a slime",
-                "Im just the ghost of Easter.."};
-
-        for(String t : text)
-        {
-            Text item = new Text(t);
-            items.getChildren().add(item);
-        }
-
     }
 }
