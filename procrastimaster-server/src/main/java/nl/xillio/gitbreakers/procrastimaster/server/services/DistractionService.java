@@ -15,7 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Distraction;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Distraction;
 import nl.xillio.gitbreakers.procrastimaster.server.repositories.DistractionRepository;
 import org.springframework.stereotype.Service;
 

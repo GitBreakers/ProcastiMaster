@@ -15,7 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Distraction;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Distraction;
 
 public interface DistractionRepository extends AbstractRepository<Distraction> {
 }

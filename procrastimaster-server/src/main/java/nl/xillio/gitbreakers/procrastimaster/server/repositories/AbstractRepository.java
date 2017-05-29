@@ -15,10 +15,17 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.BaseEntity;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.BaseEntity;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.util.Date;
+import java.util.Optional;
+
 @NoRepositoryBean
 public interface AbstractRepository<T extends BaseEntity> extends CrudRepository<T, Integer> {
+    Optional<T> findTopByCreatedByOrderByCreatedOn(User user);
+
+    Optional<T> findTopByCreatedOnBetweenAndCreatedBy(Date start, Date end, User creator);
 }

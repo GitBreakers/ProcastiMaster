@@ -15,30 +15,18 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import javax.persistence.Entity;
-import java.util.Date;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class represents the post every working team member creates at the end of the day, telling the other team
- * members what they have been working on today.
- *
- * @author Thomas Biesaart
+ * This class represents information about the recent activities of the team members.
  */
-@Entity
-public class Update extends BaseEntity {
-    private String todayIHave;
-    private String todayIHaveNot;
-    private Date nextDay;
+public class History {
+    private List<Update> updates = new ArrayList<>();
 
-    public String getTodayIHave() {
-        return todayIHave;
-    }
-
-    public String getTodayIHaveNot() {
-        return todayIHaveNot;
-    }
-
-    public Date getNextDay() {
-        return nextDay;
+    public List<Update> getUpdates() {
+        return updates;
     }
 }

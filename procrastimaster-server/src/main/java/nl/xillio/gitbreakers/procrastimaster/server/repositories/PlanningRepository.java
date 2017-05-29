@@ -15,7 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Planning;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
 
 public interface PlanningRepository extends AbstractRepository<Planning> {
 }

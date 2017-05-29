@@ -15,32 +15,16 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import javax.persistence.*;
 
-/**
- * This class represents the base of every entity in the ProcrastiMaster domain model.
- *
- * @author Thomas Biesaart
- */
-@MappedSuperclass
-public abstract class BaseEntity {
-    @Id
-    @GeneratedValue
-    private Integer id;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by_user_id")
-    private User createdBy;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Integer getId() {
-        return id;
-    }
+public class Today {
+    private List<Planning> plannings = new ArrayList<>();
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
+    public List<Planning> getPlannings() {
+        return plannings;
     }
 }

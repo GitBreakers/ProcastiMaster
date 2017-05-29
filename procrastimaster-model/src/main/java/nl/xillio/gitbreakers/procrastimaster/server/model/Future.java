@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface UpdateRepository extends AbstractRepository<Update> {
-    Optional<Update> findTopByCreatedByAndNextDayAfterOrderByCreatedOn(User user, Date after);
+/**
+ * This class contains the next working day for all team members.
+ */
+public class Future {
+    private final List<WorkingDay> workingDays = new ArrayList<>();
+
+    public List<WorkingDay> getWorkingDays() {
+        return workingDays;
+    }
 }

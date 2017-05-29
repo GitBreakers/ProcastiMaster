@@ -15,7 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.repositories;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 
 public interface UserRepository extends AbstractRepository<User> {
 }
