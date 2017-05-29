@@ -17,6 +17,8 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -26,8 +28,10 @@ import java.util.ResourceBundle;
  * Created by Jorn on 29/05/2017.
  */
 public class LogController implements Initializable {
-    @FXML
-    private Text title;
+    @FXML private Text title;
+    @FXML private TextField focusText;
+    @FXML private TextArea workText;
+    @FXML private TextArea helpText;
 
     public void initialize(URL location, ResourceBundle resources) {
         title.setText("Starting Log");
