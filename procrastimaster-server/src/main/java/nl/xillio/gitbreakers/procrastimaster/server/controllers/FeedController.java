@@ -15,12 +15,10 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.controllers;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Planning;
-import nl.xillio.gitbreakers.procrastimaster.server.services.PlanningService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("plannings")
-public class PlanningController extends AbstractEntityController<Planning, PlanningService> {
+@RequestMapping("feed")
+public class FeedController {
 }

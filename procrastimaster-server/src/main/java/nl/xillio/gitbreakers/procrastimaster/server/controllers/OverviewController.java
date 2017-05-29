@@ -15,12 +15,25 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.controllers;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Update;
-import nl.xillio.gitbreakers.procrastimaster.server.services.UpdateService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("updates")
-public class UpdateController extends AbstractEntityController<Update, UpdateService> {
+@RequestMapping("overview")
+public class OverviewController {
+
+    @RequestMapping("history")
+    public void getHistory() {
+
+    }
+
+    @RequestMapping("today")
+    public void getToday() {
+
+    }
+
+    @RequestMapping("future")
+    public void getFuture() {
+
+    }
 }

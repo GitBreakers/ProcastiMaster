@@ -15,14 +15,8 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.Distraction;
-import nl.xillio.gitbreakers.procrastimaster.server.model.User;
-import nl.xillio.gitbreakers.procrastimaster.server.services.DistractionService;
-import nl.xillio.gitbreakers.procrastimaster.server.services.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ProcrastiMasterServer {
