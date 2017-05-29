@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 
     Copyright (C) 2017 Xillio GitBreakers (GitBreakers@xillio.com)
@@ -15,10 +17,26 @@
     limitations under the License.
 
 -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.LogController">
-    <Text>The Update Pane is supposed to go here</Text>
-</HBox>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.UpdatesController">
+    <Text fx:id="title" text="Title" textAlignment="CENTER" wrappingWidth="420">
+        <font><Font name="System Bold" size="24.0" /></font>
+    </Text>
+    <TextArea fx:id="updateArea" promptText="I have been working on..."/>
+    <ButtonBar>
+        <buttons>
+            <Button fx:id="helpButton" mnemonicParsing="false" text="Help" ButtonBar.buttonData="LEFT"/>
+            <Text fx:id="feedback" />
+            <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
+        </buttons>
+    </ButtonBar>
+</VBox>

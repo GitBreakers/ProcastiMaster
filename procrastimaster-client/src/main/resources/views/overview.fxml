@@ -28,7 +28,7 @@
             fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.OverviewController">
     <HBox AnchorPane.topAnchor="0"
           AnchorPane.leftAnchor="0"
-          maxHeight="64" minHeight="64"
+          maxHeight="50" minHeight="50"
           fx:id="header">
         <ImageView fx:id=""
                    id="boxImage"
@@ -38,7 +38,7 @@
                 <Image url="@../images/usericon.png"/>
             </image>
         </ImageView>
-        <Text text="Full Name">
+        <Text fx:id="username" text="Full Name">
             <font><Font name="System Bold" size="24.0" /></font>
         </Text>
     </HBox>
@@ -48,13 +48,13 @@
                AnchorPane.rightAnchor="0"
                AnchorPane.topAnchor="64">
         <SplitPane orientation="HORIZONTAL">
-            <AnchorPane fx:id="overviewLeft" />
-            <AnchorPane fx:id="overviewMid" />
-            <AnchorPane fx:id="overviewRight" />
+            <AnchorPane fx:id="overviewLeft" prefWidth="320" prefHeight="320"/>
+            <AnchorPane fx:id="overviewMid" prefWidth="320" prefHeight="320"/>
+            <AnchorPane fx:id="overviewRight" prefWidth="320" prefHeight="320"/>
         </SplitPane>
         <SplitPane orientation="HORIZONTAL">
-            <AnchorPane fx:id="workspaceLeft" />
-            <AnchorPane fx:id="workspaceRight" />
+            <AnchorPane fx:id="workspaceLeft" prefWidth="480" prefHeight="320"/>
+            <AnchorPane fx:id="workspaceRight" prefWidth="480" prefHeight="320"/>
         </SplitPane>
     </SplitPane>
 </AnchorPane>

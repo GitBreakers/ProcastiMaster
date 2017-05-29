@@ -18,6 +18,7 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 
@@ -31,6 +32,9 @@ import java.util.ResourceBundle;
  */
 @Singleton
 public class OverviewController implements Initializable {
+
+    @FXML
+    private Text username;
 
     @FXML
     private Pane overviewLeft;
@@ -54,6 +58,9 @@ public class OverviewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Setup header
+        username.setText("Jorn Verhoeven");
+
         // Load overview components
         loadInto(FXMLLoaderService.View.PAST, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);

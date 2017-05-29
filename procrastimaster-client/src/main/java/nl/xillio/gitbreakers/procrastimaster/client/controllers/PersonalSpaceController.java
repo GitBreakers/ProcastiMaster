@@ -15,7 +15,9 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +27,10 @@ import java.util.ResourceBundle;
  */
 public class PersonalSpaceController implements Initializable {
 
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    private Text title;
 
+    public void initialize(URL location, ResourceBundle resources) {
+        title.setText("Personal Space");
     }
 }

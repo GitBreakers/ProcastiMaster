@@ -15,7 +15,11 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +29,26 @@ import java.util.ResourceBundle;
  */
 public class UpdatesController implements Initializable {
 
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    private Text title;
 
+    @FXML
+    private Text feedback;
+
+    @FXML
+    private TextArea updateArea;
+
+    @FXML
+    private Button helpButton;
+
+    @FXML
+    private Button postButton;
+
+    public void initialize(URL location, ResourceBundle resources) {
+        title.setText("Updates");
+
+        updateArea.setEditable(false);
+        updateArea.setDisable(true);
+        feedback.setText("Please update your start log first!");
     }
 }
