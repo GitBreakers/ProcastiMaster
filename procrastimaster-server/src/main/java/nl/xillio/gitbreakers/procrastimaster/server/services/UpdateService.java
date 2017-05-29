@@ -15,6 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.server.services;
 
+import nl.xillio.gitbreakers.procrastimaster.server.DateUtils;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Future;
 import nl.xillio.gitbreakers.procrastimaster.server.model.History;
 import nl.xillio.gitbreakers.procrastimaster.server.model.WorkingDay;
@@ -48,7 +49,7 @@ public class UpdateService extends AbstractService<Update, UpdateRepository> {
         History history = new History();
 
         for (User user : userService.getAll()) {
-            getLastUpdate(user)
+            getLastUpdateWithCreationDateInPast(user)
                     .ifPresent(history.getUpdates()::add);
         }
 
@@ -59,7 +60,7 @@ public class UpdateService extends AbstractService<Update, UpdateRepository> {
         Future future = new Future();
 
         for (User user : userService.getAll()) {
-            getLastUpdateWithWorkingDayInFuture(user)
+            getFirstUpdateWithWorkingDayInFuture(user)
                     .map(update -> {
                         WorkingDay workingDay = new WorkingDay();
                         workingDay.setUser(user);
@@ -80,11 +81,15 @@ public class UpdateService extends AbstractService<Update, UpdateRepository> {
         entity.setNextDay(calendar.getTime());
     }
 
-    private Optional<Update> getLastUpdateWithWorkingDayInFuture(User user) {
-        return getRepository().findTopByCreatedByAndNextDayAfterOrderByCreatedOn(user, new Date());
+    private Optional<Update> getFirstUpdateWithWorkingDayInFuture(User user) {
+        return getRepository().findTopByCreatedByAndNextDayAfterOrderByNextDay(user, new Date());
+    }
+
+    private Optional<Update> getLastUpdateWithCreationDateInPast(User user) {
+        return getRepository().findTopByCreatedByAndCreatedOnBeforeOrderByCreatedOnDesc(user, DateUtils.todayMidnight());
     }
 
     public Optional<Update> getLastUpdate(User user) {
-        return getRepository().findTopByCreatedByOrderByCreatedOn(user);
+        return getRepository().findTopByCreatedByOrderByCreatedOnDesc(user);
     }
 }

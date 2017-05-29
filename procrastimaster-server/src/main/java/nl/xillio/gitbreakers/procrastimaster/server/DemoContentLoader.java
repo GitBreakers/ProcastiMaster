@@ -89,6 +89,12 @@ public class DemoContentLoader implements CommandLineRunner {
         planningService.save(planning, pieter);
 
         update = new Update();
+        update.setNextDay(new Date(System.currentTimeMillis() + DAY));
+        update.setTodayIHave("Created the back-end of procrastimaster!");
+        update.setTodayIHaveNot("Combined the front-end and back-end :-(");
+        updateService.save(update, pieter);
+
+        update = new Update();
         update.setNextDay(new Date(System.currentTimeMillis() + 7 * DAY));
         update.setTodayIHave("Planned a vacation");
         update.setTodayIHaveNot("Done anything productive");
