@@ -16,8 +16,32 @@
 package nl.xillio.gitbreakers.procrastimaster.client;
 
 
-public class ProcrastiMaster {
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ProcrastiMaster extends Application {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcrastiMaster.class);
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        LOGGER.info("Launching {}", ProcrastiMaster.class.getSimpleName());
+        launch(ProcrastiMaster.class, args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        LOGGER.info("Setting up injection context");
+        Injector injector = Guice.createInjector(new InjectionModule(primaryStage));
+        FXMLLoaderService fxmlLoaderService = injector.getInstance(FXMLLoaderService.class);
+
+        AnchorPane primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW);
+        primaryStage.setScene(new Scene(primaryScene));
+        primaryStage.show();
     }
 }
