@@ -25,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 
@@ -36,19 +35,20 @@ import java.util.ResourceBundle;
 /**
  * Created by Jorn on 29/05/2017.
  */
-public class PastController implements Initializable {
+public class HistoryController implements Initializable {
+
 
     @FXML
-    Text title;
+    private TableView tableView;
 
     @FXML
-    TableView tableView;
+    private Text title;
 
     @FXML
-    TableColumn<String, String> userColumn;
+    private TableColumn<String, String> userColumn;
 
     @FXML
-    TableColumn<String, String> infoColumn;
+    private TableColumn<String, String> infoColumn;
 
     ObservableList<TableEntry> data =
             FXCollections.observableArrayList(
@@ -109,6 +109,5 @@ public class PastController implements Initializable {
 
         userColumn.setResizable(false);
         infoColumn.setResizable(false);
-
     }
 }

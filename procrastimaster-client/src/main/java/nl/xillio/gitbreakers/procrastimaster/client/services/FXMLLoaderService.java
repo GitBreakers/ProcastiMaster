@@ -51,7 +51,7 @@ public class FXMLLoaderService {
 
     public enum View {
         OVERVIEW,
-        PAST,
+        HISTORY,
         TODAY,
         FUTURE,
         LOG,
