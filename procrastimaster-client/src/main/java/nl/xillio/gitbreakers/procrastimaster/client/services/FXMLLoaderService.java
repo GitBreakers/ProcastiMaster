@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * This service loads .fxml files from the classpath in the 'views' package.
+ */
 @Singleton
 public class FXMLLoaderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FXMLLoaderService.class);
@@ -36,9 +39,9 @@ public class FXMLLoaderService {
     }
 
     public <T extends Pane> T getView(View view) {
-        LOGGER.info("Loading View: {}", view.getViewName());
+        LOGGER.info("Loading View: {}", view.name());
         FXMLLoader fxmlLoader = fxmlLoaderFactory.build();
-        fxmlLoader.setLocation(getViewFile(view.getViewName()));
+        fxmlLoader.setLocation(view.getResource());
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
@@ -46,22 +49,16 @@ public class FXMLLoaderService {
         }
     }
 
-    private URL getViewFile(String name) {
-        String viewUrl = "/views/" + name + ".fxml";
-        URL result = getClass().getResource(viewUrl);
-
-        if (result == null) {
-            throw new IllegalArgumentException("No view '" + name + "' was found");
-        }
-
-        return result;
-    }
-
     public enum View {
         OVERVIEW;
 
-        public String getViewName() {
-            return name().toLowerCase();
+        private final URL resource = getClass().getResource("/views/" + name().toLowerCase() + ".fxml");
+
+        public URL getResource() {
+            if (resource == null) {
+                throw new IllegalStateException("No view '" + name() + "' was found");
+            }
+            return resource;
         }
     }
 }

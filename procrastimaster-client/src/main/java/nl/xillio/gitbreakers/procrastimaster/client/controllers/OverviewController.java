@@ -23,6 +23,9 @@ import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This controller is responsible for the main layout of the application.
+ */
 @Singleton
 public class OverviewController implements Initializable {
 
@@ -39,6 +42,6 @@ public class OverviewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("");
+
     }
 }
