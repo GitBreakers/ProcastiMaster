@@ -18,7 +18,10 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
+import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,8 +43,29 @@ public class OverviewController implements Initializable {
     @FXML
     private Pane workspaceRight;
 
+    private final FXMLLoaderService fxmlLoaderService;
+    private final AsyncExecutor asyncExecutor;
+
+    @Inject
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor) {
+        this.fxmlLoaderService = fxmlLoaderService;
+        this.asyncExecutor = asyncExecutor;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Load overview components
+        loadInto(FXMLLoaderService.View.PAST, overviewLeft);
+        loadInto(FXMLLoaderService.View.TODAY, overviewMid);
+        loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
+    }
 
+    private void loadInto(FXMLLoaderService.View view, Pane parentPane) {
+        asyncExecutor.execute(
+                () -> {
+                    Pane pane = fxmlLoaderService.getView(view);
+                    parentPane.getChildren().setAll(pane);
+                }
+        );
     }
 }

@@ -16,7 +16,14 @@
 package nl.xillio.gitbreakers.procrastimaster.client;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import javafx.stage.Stage;
+import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 
 public class InjectionModule extends AbstractModule {
@@ -29,5 +36,21 @@ public class InjectionModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Stage.class).toInstance(primaryStage);
+    }
+
+    @Provides
+    @Singleton
+    AsyncExecutor asyncExecutor() {
+        ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
+
+        ThreadFactory threadFactory = run -> {
+            Thread result = defaultThreadFactory.newThread(run);
+            result.setDaemon(true);
+            return result;
+        };
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4, threadFactory);
+
+        return new AsyncExecutor(executorService);
     }
 }

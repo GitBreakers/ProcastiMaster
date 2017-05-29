@@ -50,7 +50,10 @@ public class FXMLLoaderService {
     }
 
     public enum View {
-        OVERVIEW;
+        OVERVIEW,
+        PAST,
+        TODAY,
+        FUTURE;
 
         private final URL resource = getClass().getResource("/views/" + name().toLowerCase() + ".fxml");
 
