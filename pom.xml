@@ -115,6 +115,7 @@
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <aggregate>true</aggregate>
                     <excludes>
+                        <exclude>.jdk/**</exclude>
                         <exclude>**/**.ttf</exclude>
                         <exclude>**/**.xilt</exclude>
                         <exclude>**/**.xlsx</exclude>
