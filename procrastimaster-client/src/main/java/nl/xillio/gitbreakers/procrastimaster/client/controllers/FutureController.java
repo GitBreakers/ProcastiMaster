@@ -15,9 +15,6 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,24 +32,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
-<<<<<<< Updated upstream
  * Created by Jorn on 29/05/2017.
  */
 public class FutureController implements Initializable {
-
     @FXML
-    Text title;
-
+    private TableView tableView;
     @FXML
-    TableView tableView;
-
+    private TableColumn<String, String> userColumn;
     @FXML
-    TableColumn<String, String> userColumn;
+    private TableColumn<String, String> infoColumn;
 
-    @FXML
-    TableColumn<String, String> infoColumn;
-
-    ObservableList<TableEntry> data =
+    // EXAMPLE DATA
+    private ObservableList<TableEntry> data =
             FXCollections.observableArrayList(
                     new TableEntry("Dwight", "Monday @ XHQ"),
                     new TableEntry("Luca", "Monday @ XHQ"),
@@ -60,20 +51,17 @@ public class FutureController implements Initializable {
                     new TableEntry("Thomas", "Next week")
             );
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
         infoColumn.setCellValueFactory(new PropertyValueFactory<>("info"));
 
         tableView.setItems(data);
-        title.setText("Future");
 
         tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
             //Don't show header
             Pane header = (Pane) tableView.lookup("TableHeaderRow");
-            if (header.isVisible()){
+            if (header.isVisible()) {
                 header.setMaxHeight(0);
                 header.setMinHeight(0);
                 header.setPrefHeight(0);
@@ -81,13 +69,12 @@ public class FutureController implements Initializable {
             }
         });
 
-
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
             //Don't show header
             Pane header1 = (Pane) tableView.lookup("TableHeaderRow");
-            if (header1.isVisible()){
+            if (header1.isVisible()) {
                 header1.setMaxHeight(0);
                 header1.setMinHeight(0);
                 header1.setPrefHeight(0);
@@ -103,15 +90,11 @@ public class FutureController implements Initializable {
             cell.setPrefHeight(cell.getHeight());
             text.wrappingWidthProperty().bind(infoColumn.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
 
         userColumn.setMinWidth(Control.USE_COMPUTED_SIZE);
         userColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.20));
         infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.79));
-
-        userColumn.setResizable(false);
-        infoColumn.setResizable(false);
-
     }
 }
