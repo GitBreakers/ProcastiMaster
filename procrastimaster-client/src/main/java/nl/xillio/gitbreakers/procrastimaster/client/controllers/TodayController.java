@@ -33,16 +33,10 @@ import java.util.ResourceBundle;
 
 
 public class TodayController implements Initializable {
-
-    @FXML
-    Text title;
-
     @FXML
     TableView tableView;
-
     @FXML
     TableColumn<String, String> userColumn;
-
     @FXML
     TableColumn<String, String> infoColumn;
 
@@ -54,20 +48,17 @@ public class TodayController implements Initializable {
                     new TableEntry("Thomas", "Next week")
             );
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
         infoColumn.setCellValueFactory(new PropertyValueFactory<>("info"));
 
         tableView.setItems(data);
-        title.setText("Today");
 
         tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
             //Don't show header
             Pane header = (Pane) tableView.lookup("TableHeaderRow");
-            if (header.isVisible()){
+            if (header.isVisible()) {
                 header.setMaxHeight(0);
                 header.setMinHeight(0);
                 header.setPrefHeight(0);
@@ -75,13 +66,12 @@ public class TodayController implements Initializable {
             }
         });
 
-
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
             //Don't show header
             Pane header1 = (Pane) tableView.lookup("TableHeaderRow");
-            if (header1.isVisible()){
+            if (header1.isVisible()) {
                 header1.setMaxHeight(0);
                 header1.setMinHeight(0);
                 header1.setPrefHeight(0);
@@ -89,7 +79,6 @@ public class TodayController implements Initializable {
             }
         });
 
-        infoColumn.setPrefWidth(500);
         infoColumn.setCellFactory(param -> {
             TableCell<String, String> cell = new TableCell<>();
             Text text = new Text();
@@ -97,15 +86,11 @@ public class TodayController implements Initializable {
             cell.setPrefHeight(cell.getHeight());
             text.wrappingWidthProperty().bind(infoColumn.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
 
         userColumn.setMinWidth(Control.USE_COMPUTED_SIZE);
         userColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.20));
         infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.79));
-
-        userColumn.setResizable(false);
-        infoColumn.setResizable(false);
-
     }
 }

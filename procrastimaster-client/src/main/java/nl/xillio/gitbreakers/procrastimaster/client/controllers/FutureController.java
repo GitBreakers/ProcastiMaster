@@ -42,7 +42,6 @@ public class FutureController implements Initializable {
     @FXML
     private TableColumn<String, String> infoColumn;
 
-    // EXAMPLE DATA
     private ObservableList<TableEntry> data =
             FXCollections.observableArrayList(
                     new TableEntry("Dwight", "Monday @ XHQ"),
@@ -82,7 +81,6 @@ public class FutureController implements Initializable {
             }
         });
 
-        infoColumn.setPrefWidth(500);
         infoColumn.setCellFactory(param -> {
             TableCell<String, String> cell = new TableCell<>();
             Text text = new Text();
