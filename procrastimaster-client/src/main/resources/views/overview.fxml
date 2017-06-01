@@ -29,7 +29,8 @@
     <HBox AnchorPane.topAnchor="0"
           AnchorPane.leftAnchor="0"
           maxHeight="50" minHeight="50"
-          fx:id="header">
+          fx:id="header"
+          alignment="BOTTOM_LEFT">
         <ImageView fx:id=""
                    id="boxImage"
                    fitHeight="50"
@@ -47,12 +48,12 @@
                AnchorPane.leftAnchor="0"
                AnchorPane.rightAnchor="0"
                AnchorPane.topAnchor="64">
-        <SplitPane orientation="HORIZONTAL">
+        <SplitPane>
             <AnchorPane fx:id="overviewLeft" prefWidth="320" prefHeight="320"/>
             <AnchorPane fx:id="overviewMid" prefWidth="320" prefHeight="320"/>
             <AnchorPane fx:id="overviewRight" prefWidth="320" prefHeight="320"/>
         </SplitPane>
-        <SplitPane orientation="HORIZONTAL">
+        <SplitPane>
             <AnchorPane fx:id="workspaceLeft" prefWidth="480" prefHeight="320"/>
             <AnchorPane fx:id="workspaceRight" prefWidth="480" prefHeight="320"/>
         </SplitPane>

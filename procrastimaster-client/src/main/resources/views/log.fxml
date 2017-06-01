@@ -25,10 +25,9 @@
     <Text fx:id="title" text="Title" textAlignment="CENTER" wrappingWidth="420">
         <font><Font name="System Bold" size="24.0" /></font>
     </Text>
-    <TextField fx:id="focusText" promptText="Focus Task"></TextField>
-    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64"></TextArea>
-    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64"></TextArea>
-
+    <TextField fx:id="focusText" promptText="Focus Task" />
+    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64" />
+    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64" />
     <ButtonBar>
         <buttons>
             <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
