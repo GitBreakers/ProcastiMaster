@@ -21,7 +21,7 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.PersonalSpaceController">
-    <Text fx:id="title" text="Title" textAlignment="CENTER" wrappingWidth="420">
+    <Text text="Personal space" textAlignment="CENTER" wrappingWidth="420">
         <font><Font name="System Bold" size="24.0" /></font>
     </Text>
 </VBox>

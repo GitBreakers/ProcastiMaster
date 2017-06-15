@@ -20,35 +20,45 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import nl.xillio.gitbreakers.procrastimaster.client.services.ButtonEnterHandlerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Jorn on 29/05/2017.
- */
 public class UpdatesController implements Initializable {
-
-    @FXML
-    private Text title;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdatesController.class);
 
     @FXML
     private Text feedback;
-
     @FXML
     private TextArea updateArea;
-
     @FXML
     private Button helpButton;
-
     @FXML
     private Button postButton;
 
-    public void initialize(URL location, ResourceBundle resources) {
-        title.setText("Updates");
+    private final ButtonEnterHandlerService enterHandlerService;
 
-        updateArea.setEditable(false);
-        updateArea.setDisable(true);
-        feedback.setText("Please update your start log first!");
+    @Inject
+    public UpdatesController(ButtonEnterHandlerService enterHandlerService) {
+        this.enterHandlerService = enterHandlerService;
+    }
+
+    public void initialize(URL location, ResourceBundle resources) {
+        enterHandlerService.handleEnter(helpButton, postButton);
+
+        helpButton.setOnAction(e -> askHelp());
+        postButton.setOnAction(e -> postUpdate());
+    }
+
+    private void askHelp() {
+        LOGGER.info("Asking for help");
+    }
+
+    private void postUpdate() {
+        LOGGER.info("Posting update");
     }
 }

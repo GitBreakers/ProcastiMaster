@@ -59,7 +59,7 @@ public class FXMLLoaderService {
         HISTORY("userinfo", HistoryController.class),
         TODAY("userinfo", TodayController.class),
         FUTURE("userinfo", FutureController.class),
-        LOG,
+        STARTLOG,
         UPDATES,
         PERSONALSPACE;
 

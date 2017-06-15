@@ -35,9 +35,7 @@
                    id="boxImage"
                    fitHeight="50"
                    fitWidth="50" >
-            <image>
-                <Image url="@../images/usericon.png"/>
-            </image>
+            <Image url="@../images/usericon.png"/>
         </ImageView>
         <Text fx:id="username" text="Full Name">
             <font><Font name="System Bold" size="24.0" /></font>

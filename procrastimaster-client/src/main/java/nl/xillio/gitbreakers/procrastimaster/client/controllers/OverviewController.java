@@ -32,10 +32,8 @@ import java.util.ResourceBundle;
  */
 @Singleton
 public class OverviewController implements Initializable {
-
     @FXML
     private Text username;
-
     @FXML
     private Pane overviewLeft;
     @FXML
@@ -65,7 +63,7 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
-        loadInto(FXMLLoaderService.View.LOG, workspaceLeft);
+        loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
         // After the log has been updated
