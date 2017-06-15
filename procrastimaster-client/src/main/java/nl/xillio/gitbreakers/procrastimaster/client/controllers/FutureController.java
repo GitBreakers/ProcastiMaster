@@ -16,83 +16,15 @@
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Control;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-/**
- * Created by Jorn on 29/05/2017.
- */
-public class FutureController implements Initializable {
-    @FXML
-    private TableView tableView;
-    @FXML
-    private TableColumn<String, String> userColumn;
-    @FXML
-    private TableColumn<String, String> infoColumn;
-
-    private ObservableList<TableEntry> data =
-            FXCollections.observableArrayList(
-                    new TableEntry("Dwight", "Monday @ XHQ"),
-                    new TableEntry("Luca", "Monday @ XHQ"),
-                    new TableEntry("Pieter", "Tuesday @ Home"),
-                    new TableEntry("Thomas", "Next week")
-            );
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
-        infoColumn.setCellValueFactory(new PropertyValueFactory<>("info"));
-
-        tableView.setItems(data);
-
-        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
-            //Don't show header
-            Pane header = (Pane) tableView.lookup("TableHeaderRow");
-            if (header.isVisible()) {
-                header.setMaxHeight(0);
-                header.setMinHeight(0);
-                header.setPrefHeight(0);
-                header.setVisible(false);
-            }
-        });
-
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
-            //Don't show header
-            Pane header1 = (Pane) tableView.lookup("TableHeaderRow");
-            if (header1.isVisible()) {
-                header1.setMaxHeight(0);
-                header1.setMinHeight(0);
-                header1.setPrefHeight(0);
-                header1.setVisible(false);
-            }
-        });
-
-        infoColumn.setCellFactory(param -> {
-            TableCell<String, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            cell.setPrefHeight(cell.getHeight());
-            text.wrappingWidthProperty().bind(infoColumn.widthProperty());
-            text.textProperty().bind(cell.itemProperty());
-            return cell;
-        });
-
-        userColumn.setMinWidth(Control.USE_COMPUTED_SIZE);
-        userColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.20));
-        infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.79));
+public class FutureController extends TableCardController {
+    public FutureController() {
+        super("Future", FXCollections.observableArrayList(
+                new TableEntry("Dwight", "Monday @ XHQ"),
+                new TableEntry("Luca", "Monday @ XHQ"),
+                new TableEntry("Pieter", "Tuesday @ Home"),
+                new TableEntry("Thomas", "Next week")
+        ));
     }
 }
