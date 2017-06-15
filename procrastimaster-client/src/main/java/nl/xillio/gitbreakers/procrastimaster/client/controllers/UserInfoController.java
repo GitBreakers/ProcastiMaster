@@ -31,7 +31,7 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class TableCardController implements Initializable {
+public abstract class UserInfoController implements Initializable {
     @FXML
     private TableView tableView;
     @FXML
@@ -44,11 +44,11 @@ public abstract class TableCardController implements Initializable {
     private final String titleString;
     private final ObservableList<TableEntry> mockData;
 
-    protected TableCardController(String title) {
+    protected UserInfoController(String title) {
         this(title, FXCollections.emptyObservableList());
     }
 
-    protected TableCardController(String title, ObservableList<TableEntry> mockData) {
+    protected UserInfoController(String title, ObservableList<TableEntry> mockData) {
         this.titleString = title;
         this.mockData = mockData;
     }

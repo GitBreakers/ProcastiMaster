@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 
     Copyright (C) 2017 Xillio GitBreakers (GitBreakers@xillio.com)
@@ -23,25 +21,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController"
       spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"
       AnchorPane.topAnchor="0.0">
-    <children>
-        <Text fx:id="title" text="Future"
-              wrappingWidth="320"
-              textAlignment="CENTER">
-            <font>
-                <Font name="System Bold" size="24.0"/>
-            </font>
-        </Text>
-        <TableView id="table" fx:id="tableView" VBox.vgrow="ALWAYS">
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-            <columns>
-                <TableColumn fx:id="userColumn" prefWidth="25.0" minWidth="20" resizable="false"/>
-                <TableColumn fx:id="infoColumn" prefWidth="500" minWidth="20" resizable="false"/>
-            </columns>
-        </TableView>
-    </children>
+    <Text fx:id="title"
+          wrappingWidth="320"
+          textAlignment="CENTER">
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
+    </Text>
+    <TableView id="table" fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn fx:id="userColumn" prefWidth="25.0" minWidth="20" resizable="false"/>
+            <TableColumn fx:id="infoColumn" prefWidth="500" minWidth="20" resizable="false"/>
+        </columns>
+    </TableView>
 </VBox>

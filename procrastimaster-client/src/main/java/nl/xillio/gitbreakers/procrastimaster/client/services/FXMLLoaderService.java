@@ -19,6 +19,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.HistoryController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.TodayController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +45,8 @@ public class FXMLLoaderService {
         LOGGER.info("Loading View: {}", view.name());
         FXMLLoader fxmlLoader = fxmlLoaderFactory.build();
         fxmlLoader.setLocation(view.getResource());
+        fxmlLoader.setController(view.getController());
+
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
@@ -51,21 +56,42 @@ public class FXMLLoaderService {
 
     public enum View {
         OVERVIEW,
-        HISTORY,
-        TODAY,
-        FUTURE,
+        HISTORY("userinfo", HistoryController.class),
+        TODAY("userinfo", TodayController.class),
+        FUTURE("userinfo", FutureController.class),
         LOG,
         UPDATES,
-        PERSONALSPACE
-        ;
+        PERSONALSPACE;
 
-        private final URL resource = getClass().getResource("/views/" + name().toLowerCase() + ".fxml");
+        private final String view;
+        private final Class<?> clazz;
+        private final URL resource;
+
+        View() {
+            view = name().toLowerCase();
+            this.clazz = null;
+            resource = getClass().getResource("/views/" + view + ".fxml");
+        }
+
+        View(String view, Class<?> clazz) {
+            this.view = view;
+            this.clazz = clazz;
+            resource = getClass().getResource("/views/" + view + ".fxml");
+        }
 
         public URL getResource() {
             if (resource == null) {
-                throw new IllegalStateException("No view '" + name() + "' was found");
+                throw new IllegalStateException("No view '" + view + "' was found");
             }
             return resource;
+        }
+
+        public Object getController() {
+            try {
+                return clazz == null ? null : clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new IllegalStateException("Could not instantiate: " + clazz.getSimpleName());
+            }
         }
     }
 }

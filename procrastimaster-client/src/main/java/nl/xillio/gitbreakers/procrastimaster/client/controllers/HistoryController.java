@@ -18,7 +18,7 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 import javafx.collections.FXCollections;
 import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 
-public class HistoryController extends TableCardController {
+public class HistoryController extends UserInfoController {
     public HistoryController() {
         super("History", FXCollections.observableArrayList(
                 new TableEntry("Dwight", "Worked on story"),
