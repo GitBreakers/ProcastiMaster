@@ -21,13 +21,16 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.StartLogController">
+      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.StartLogController"
+      fx:id="root">
     <Text text="Starting log" textAlignment="CENTER" wrappingWidth="420">
-        <font><Font name="System Bold" size="24.0" /></font>
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
     </Text>
-    <TextField fx:id="focusText" promptText="Focus Task" />
-    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64" />
-    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64" />
+    <TextField fx:id="focusText" promptText="Focus Task"/>
+    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64"/>
+    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64"/>
     <ButtonBar>
         <buttons>
             <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>

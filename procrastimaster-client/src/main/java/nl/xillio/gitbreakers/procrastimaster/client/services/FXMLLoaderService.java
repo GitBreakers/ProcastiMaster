@@ -55,8 +55,8 @@ public class FXMLLoaderService {
 
         // Check the controller, set the overview controller.
         Object controller = fxmlLoader.getController();
-        if (controller instanceof SubController) {
-            ((SubController)controller).setOverviewController(overviewController);
+        if (controller instanceof AbstractController) {
+            ((AbstractController)controller).setOverviewController(overviewController);
         }
 
         return result;
@@ -72,7 +72,7 @@ public class FXMLLoaderService {
         PERSONALSPACE;
 
         private final String view;
-        private final Class<? extends SubController> controller;
+        private final Class<? extends AbstractController> controller;
         private final URL resource;
 
         View() {
@@ -81,7 +81,7 @@ public class FXMLLoaderService {
             resource = getClass().getResource("/views/" + view + ".fxml");
         }
 
-        View(String view, Class<? extends SubController> controller) {
+        View(String view, Class<? extends AbstractController> controller) {
             this.view = view;
             this.controller = controller;
             resource = getClass().getResource("/views/" + view + ".fxml");
@@ -94,7 +94,7 @@ public class FXMLLoaderService {
             return resource;
         }
 
-        public SubController getController() {
+        public AbstractController getController() {
             try {
                 return controller == null ? null : controller.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {

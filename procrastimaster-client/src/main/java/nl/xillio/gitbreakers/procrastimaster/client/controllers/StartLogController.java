@@ -19,15 +19,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import nl.xillio.gitbreakers.procrastimaster.client.services.ButtonEnterHandlerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StartLogController extends SubController {
+public class StartLogController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartLogController.class);
 
     @FXML
@@ -39,16 +37,9 @@ public class StartLogController extends SubController {
     @FXML
     private Button updateButton;
 
-    private final ButtonEnterHandlerService enterHandlerService;
-
-    @Inject
-    public StartLogController(ButtonEnterHandlerService enterHandlerService) {
-        this.enterHandlerService = enterHandlerService;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        enterHandlerService.handleEnter(updateButton);
+        super.initialize(location, resources);
 
         updateButton.setOnAction(e -> postLog());
     }

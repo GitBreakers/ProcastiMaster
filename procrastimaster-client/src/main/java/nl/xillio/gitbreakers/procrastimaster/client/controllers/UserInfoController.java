@@ -18,7 +18,6 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Control;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -31,7 +30,7 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class UserInfoController extends SubController {
+public abstract class UserInfoController extends AbstractController {
     @FXML
     private TableView tableView;
     @FXML
@@ -55,6 +54,8 @@ public abstract class UserInfoController extends SubController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
         title.setText(titleString);
 
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));

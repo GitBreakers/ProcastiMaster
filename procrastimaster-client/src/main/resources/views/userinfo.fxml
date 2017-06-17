@@ -22,7 +22,8 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"
-      AnchorPane.topAnchor="0.0">
+      AnchorPane.topAnchor="0.0"
+      fx:id="root">
     <Text fx:id="title"
           wrappingWidth="320"
           textAlignment="CENTER">

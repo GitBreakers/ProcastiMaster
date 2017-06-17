@@ -15,11 +15,35 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PersonalSpaceController extends SubController {
+public class PersonalSpaceController extends AbstractController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonalSpaceController.class);
+
+    @FXML
+    private Button shareButton;
+    @FXML
+    private Button nextButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
+        shareButton.setOnAction(e -> sharePost());
+        nextButton.setOnAction(e -> nextPost());
+    }
+
+    private void sharePost() {
+        LOGGER.info("Sharing post");
+    }
+
+    private void nextPost() {
+        LOGGER.info("Requesting next post");
     }
 }
