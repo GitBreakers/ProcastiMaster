@@ -40,7 +40,7 @@ public class ProcrastiMaster extends Application {
         Injector injector = Guice.createInjector(new InjectionModule(primaryStage));
         FXMLLoaderService fxmlLoaderService = injector.getInstance(FXMLLoaderService.class);
 
-        AnchorPane primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW);
+        AnchorPane primaryScene = fxmlLoaderService.getView(null, FXMLLoaderService.View.OVERVIEW);
         primaryStage.setScene(new Scene(primaryScene));
         primaryStage.show();
     }

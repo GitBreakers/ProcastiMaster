@@ -65,17 +65,19 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
         loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
-
-        // After the log has been updated
-        //loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
     }
 
     private void loadInto(FXMLLoaderService.View view, Pane parentPane) {
-        asyncExecutor.execute(
+        // This needs to happen on the JavaFX thread.
+        asyncExecutor.executeOnPlatform(
                 () -> {
-                    Pane pane = fxmlLoaderService.getView(view);
+                    Pane pane = fxmlLoaderService.getView(this, view);
                     parentPane.getChildren().setAll(pane);
                 }
         );
+    }
+
+    public void loadPersonalSpace() {
+        loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
     }
 }

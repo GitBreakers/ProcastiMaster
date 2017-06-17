@@ -15,11 +15,16 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
-public class PersonalSpaceController extends SubController {
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+public abstract class SubController implements Initializable {
+    private OverviewController overviewController;
+
+    public void setOverviewController(OverviewController controller) {
+        overviewController = controller;
+    }
+
+    public OverviewController getOverviewController() {
+        return overviewController;
     }
 }

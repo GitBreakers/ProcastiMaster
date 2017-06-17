@@ -16,7 +16,6 @@
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -28,7 +27,7 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StartLogController implements Initializable {
+public class StartLogController extends SubController {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartLogController.class);
 
     @FXML
@@ -47,6 +46,7 @@ public class StartLogController implements Initializable {
         this.enterHandlerService = enterHandlerService;
     }
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         enterHandlerService.handleEnter(updateButton);
 
@@ -55,5 +55,6 @@ public class StartLogController implements Initializable {
 
     private void postLog() {
         LOGGER.info("Posting starting log");
+        getOverviewController().loadPersonalSpace();
     }
 }

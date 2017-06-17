@@ -31,7 +31,7 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class UserInfoController implements Initializable {
+public abstract class UserInfoController extends SubController {
     @FXML
     private TableView tableView;
     @FXML

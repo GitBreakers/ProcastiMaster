@@ -19,9 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController;
-import nl.xillio.gitbreakers.procrastimaster.client.controllers.HistoryController;
-import nl.xillio.gitbreakers.procrastimaster.client.controllers.TodayController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,17 +39,27 @@ public class FXMLLoaderService {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
-    public <T extends Pane> T getView(View view) {
+    public <T extends Pane> T getView(OverviewController overviewController, View view) {
         LOGGER.info("Loading View: {}", view.name());
         FXMLLoader fxmlLoader = fxmlLoaderFactory.build();
         fxmlLoader.setLocation(view.getResource());
         fxmlLoader.setController(view.getController());
 
+        // Load the FXML.
+        T result;
         try {
-            return fxmlLoader.load();
+            result = fxmlLoader.load();
         } catch (IOException e) {
             throw new IllegalStateException("Loading the new view has failed: " + e.getMessage(), e);
         }
+
+        // Check the controller, set the overview controller.
+        Object controller = fxmlLoader.getController();
+        if (controller instanceof SubController) {
+            ((SubController)controller).setOverviewController(overviewController);
+        }
+
+        return result;
     }
 
     public enum View {
@@ -64,18 +72,18 @@ public class FXMLLoaderService {
         PERSONALSPACE;
 
         private final String view;
-        private final Class<?> clazz;
+        private final Class<? extends SubController> controller;
         private final URL resource;
 
         View() {
             view = name().toLowerCase();
-            this.clazz = null;
+            this.controller = null;
             resource = getClass().getResource("/views/" + view + ".fxml");
         }
 
-        View(String view, Class<?> clazz) {
+        View(String view, Class<? extends SubController> controller) {
             this.view = view;
-            this.clazz = clazz;
+            this.controller = controller;
             resource = getClass().getResource("/views/" + view + ".fxml");
         }
 
@@ -86,11 +94,11 @@ public class FXMLLoaderService {
             return resource;
         }
 
-        public Object getController() {
+        public SubController getController() {
             try {
-                return clazz == null ? null : clazz.newInstance();
+                return controller == null ? null : controller.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new IllegalStateException("Could not instantiate: " + clazz.getSimpleName());
+                throw new IllegalStateException("Could not instantiate: " + controller.getSimpleName());
             }
         }
     }
