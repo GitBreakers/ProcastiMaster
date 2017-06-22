@@ -18,12 +18,9 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Control;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
 
@@ -41,15 +38,15 @@ public abstract class UserInfoController extends AbstractController {
     private TableColumn<String, String> infoColumn;
 
     private final String titleString;
-    private final ObservableList<TableEntry> mockData;
+    private final ObservableList<TableEntry> data;
 
     protected UserInfoController(String title) {
         this(title, FXCollections.emptyObservableList());
     }
 
-    protected UserInfoController(String title, ObservableList<TableEntry> mockData) {
+    protected UserInfoController(String title, ObservableList<TableEntry> data) {
         this.titleString = title;
-        this.mockData = mockData;
+        this.data = data;
     }
 
     @Override
@@ -61,44 +58,9 @@ public abstract class UserInfoController extends AbstractController {
         userColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
         infoColumn.setCellValueFactory(new PropertyValueFactory<>("info"));
 
-        tableView.setItems(mockData);
+        // Set the width of the info column to the max available width (subtract 2 to hide the horizontal scrollbar).
+        infoColumn.prefWidthProperty().bind(tableView.widthProperty().subtract(userColumn.widthProperty()).subtract(2));
 
-        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
-            //Don't show header
-            Pane header = (Pane) tableView.lookup("TableHeaderRow");
-            if (header.isVisible()) {
-                header.setMaxHeight(0);
-                header.setMinHeight(0);
-                header.setPrefHeight(0);
-                header.setVisible(false);
-            }
-        });
-
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
-            //Don't show header
-            Pane header1 = (Pane) tableView.lookup("TableHeaderRow");
-            if (header1.isVisible()) {
-                header1.setMaxHeight(0);
-                header1.setMinHeight(0);
-                header1.setPrefHeight(0);
-                header1.setVisible(false);
-            }
-        });
-
-        infoColumn.setCellFactory(param -> {
-            TableCell<String, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            cell.setPrefHeight(cell.getHeight());
-            text.wrappingWidthProperty().bind(infoColumn.widthProperty());
-            text.textProperty().bind(cell.itemProperty());
-            return cell;
-        });
-
-        userColumn.setMinWidth(Control.USE_COMPUTED_SIZE);
-        userColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.20));
-        infoColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.79));
+        tableView.setItems(data);
     }
 }
