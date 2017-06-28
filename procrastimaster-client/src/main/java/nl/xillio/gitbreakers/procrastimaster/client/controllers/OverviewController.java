@@ -21,10 +21,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.LoadedView;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -47,6 +50,8 @@ public class OverviewController implements Initializable {
 
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
+
+    private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
     public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor) {
@@ -71,8 +76,12 @@ public class OverviewController implements Initializable {
         // This needs to happen on the JavaFX thread.
         asyncExecutor.executeOnPlatform(
                 () -> {
-                    Pane pane = fxmlLoaderService.getView(this, view);
-                    parentPane.getChildren().setAll(pane);
+                    LoadedView loadedView = fxmlLoaderService.getView(view);
+                    parentPane.getChildren().setAll(loadedView.getNode());
+
+                    // Save this overview controller in the subcontroller, save the controller.
+                    loadedView.getController().setOverviewController(this);
+                    controllers.put(view, loadedView.getController());
                 }
         );
     }

@@ -18,8 +18,11 @@ package nl.xillio.gitbreakers.procrastimaster.client.services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.Pane;
-import nl.xillio.gitbreakers.procrastimaster.client.controllers.*;
+import javafx.scene.Node;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.AbstractController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.HistoryController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.TodayController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,27 +42,26 @@ public class FXMLLoaderService {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
-    public <T extends Pane> T getView(OverviewController overviewController, View view) {
+    public LoadedView getView(View view) {
         LOGGER.info("Loading View: {}", view.name());
         FXMLLoader fxmlLoader = fxmlLoaderFactory.build();
         fxmlLoader.setLocation(view.getResource());
         fxmlLoader.setController(view.getController());
 
         // Load the FXML.
-        T result;
+        Node node;
         try {
-            result = fxmlLoader.load();
+            node = fxmlLoader.load();
         } catch (IOException e) {
             throw new IllegalStateException("Loading the new view has failed: " + e.getMessage(), e);
         }
 
-        // Check the controller, set the overview controller.
         Object controller = fxmlLoader.getController();
-        if (controller instanceof AbstractController) {
-            ((AbstractController)controller).setOverviewController(overviewController);
+        if (!(controller instanceof AbstractController)) {
+            controller = null;
         }
 
-        return result;
+        return new LoadedView(node, (AbstractController)controller);
     }
 
     public enum View {
