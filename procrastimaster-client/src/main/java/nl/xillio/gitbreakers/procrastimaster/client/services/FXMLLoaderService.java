@@ -19,6 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.controllers.AbstractController;
 import nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController;
 import nl.xillio.gitbreakers.procrastimaster.client.controllers.HistoryController;

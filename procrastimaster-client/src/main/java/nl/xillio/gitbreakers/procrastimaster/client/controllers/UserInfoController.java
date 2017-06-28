@@ -22,7 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
+import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.client.services;
+package nl.xillio.gitbreakers.procrastimaster.client;
 
 import javafx.scene.Node;
 import nl.xillio.gitbreakers.procrastimaster.client.controllers.AbstractController;

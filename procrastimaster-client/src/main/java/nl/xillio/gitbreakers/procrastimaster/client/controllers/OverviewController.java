@@ -19,9 +19,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
-import nl.xillio.gitbreakers.procrastimaster.client.services.LoadedView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,6 +37,8 @@ import java.util.ResourceBundle;
  */
 @Singleton
 public class OverviewController implements Initializable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OverviewController.class);
+
     @FXML
     private Text username;
     @FXML
@@ -70,23 +74,21 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
         loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
+
+        // Hook into events.
+        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
     }
 
     private void loadInto(FXMLLoaderService.View view, Pane parentPane) {
-        // This needs to happen on the JavaFX thread.
-        asyncExecutor.executeOnPlatform(
-                () -> {
-                    LoadedView loadedView = fxmlLoaderService.getView(view);
-                    parentPane.getChildren().setAll(loadedView.getNode());
+        LoadedView loadedView = fxmlLoaderService.getView(view);
+        parentPane.getChildren().setAll(loadedView.getNode());
 
-                    // Save this overview controller in the subcontroller, save the controller.
-                    loadedView.getController().setOverviewController(this);
-                    controllers.put(view, loadedView.getController());
-                }
-        );
+        // Save the controller.
+        controllers.put(view, loadedView.getController());
     }
 
-    public void loadPersonalSpace() {
+    private void startLogPosted() {
+        LOGGER.info("Start log posted");
         loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
     }
 }

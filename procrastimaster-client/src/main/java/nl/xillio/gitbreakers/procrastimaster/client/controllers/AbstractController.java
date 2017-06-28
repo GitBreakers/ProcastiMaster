@@ -31,7 +31,6 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractController implements Initializable {
     private ButtonEnterHandlerService buttonEnterHandlerService;
-    private OverviewController overviewController;
 
     @FXML
     private VBox root;
@@ -56,14 +55,6 @@ public abstract class AbstractController implements Initializable {
                 findButtonsHandleEnter(((ButtonBar)node).getButtons());
             }
         }
-    }
-
-    public void setOverviewController(OverviewController controller) {
-        overviewController = controller;
-    }
-
-    public OverviewController getOverviewController() {
-        return overviewController;
     }
 
     /**

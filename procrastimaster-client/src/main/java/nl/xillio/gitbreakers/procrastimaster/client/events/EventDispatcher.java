@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.client.controllers;
+package nl.xillio.gitbreakers.procrastimaster.client.events;
 
-import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 
-public class HistoryController extends UserInfoController {
-    public HistoryController() {
-        super("History", FXCollections.observableArrayList(
-                new TableEntry("Dwight", "Worked on story"),
-                new TableEntry("Luca", "Did a thing"),
-                new TableEntry("Pieter", "Wrote docs"),
-                new TableEntry("Thomas", "Stuff")
-        ));
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventDispatcher<T extends Event> {
+    private List<EventHandler<T>> handlers = new ArrayList<>();
+
+    public void addHandler(EventHandler<T> handler) {
+        handlers.add(handler);
+    }
+
+    public void fire(T event) {
+        handlers.forEach(h -> h.handle(event));
     }
 }

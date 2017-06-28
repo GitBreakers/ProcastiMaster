@@ -16,7 +16,7 @@
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.services.TableEntry;
+import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 
 public class FutureController extends UserInfoController {
     public FutureController() {

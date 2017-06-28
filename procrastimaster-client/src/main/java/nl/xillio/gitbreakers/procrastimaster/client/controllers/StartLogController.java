@@ -15,19 +15,18 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.xillio.gitbreakers.procrastimaster.client.events.EventDispatcher;
+import nl.xillio.gitbreakers.procrastimaster.client.events.StartLogPostedEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StartLogController extends AbstractController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StartLogController.class);
-
     @FXML
     private TextField focusText;
     @FXML
@@ -37,15 +36,16 @@ public class StartLogController extends AbstractController {
     @FXML
     private Button updateButton;
 
+    private final EventDispatcher<StartLogPostedEvent> startLogPostedEventDispatcher = new EventDispatcher<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        updateButton.setOnAction(e -> postLog());
+        updateButton.setOnAction(e -> startLogPostedEventDispatcher.fire(new StartLogPostedEvent()));
     }
 
-    private void postLog() {
-        LOGGER.info("Posting starting log");
-        getOverviewController().loadPersonalSpace();
+    public void addOnStartLogPosted(EventHandler<StartLogPostedEvent> handler) {
+        startLogPostedEventDispatcher.addHandler(handler);
     }
 }
