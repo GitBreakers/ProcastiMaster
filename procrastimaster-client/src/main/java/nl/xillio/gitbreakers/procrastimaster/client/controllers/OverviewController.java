@@ -62,7 +62,7 @@ public class OverviewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Setup header
-        username.setText("Welcome Jorn Verhoeven");
+        username.setText("Welcome " + System.getProperty("user.name"));
 
         // Load overview components
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
