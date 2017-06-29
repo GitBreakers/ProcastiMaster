@@ -44,5 +44,8 @@ public class ProcrastiMaster extends Application {
         Node primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW).getNode();
         primaryStage.setScene(new Scene((Parent)primaryScene));
         primaryStage.show();
+
+        primaryStage.setMinWidth(1200);
+        primaryStage.setMinHeight(800);
     }
 }

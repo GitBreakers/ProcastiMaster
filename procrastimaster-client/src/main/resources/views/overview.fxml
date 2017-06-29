@@ -26,34 +26,26 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.OverviewController">
-    <HBox AnchorPane.topAnchor="0"
-          AnchorPane.leftAnchor="0"
-          maxHeight="50" minHeight="50"
-          fx:id="header"
-          alignment="BOTTOM_LEFT">
-        <ImageView fx:id=""
-                   id="boxImage"
-                   fitHeight="50"
-                   fitWidth="50" >
+    <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" maxHeight="50" minHeight="50" alignment="BOTTOM_LEFT">
+        <ImageView id="boxImage" fitHeight="50" fitWidth="50">
             <Image url="@../images/usericon.png"/>
         </ImageView>
         <Text fx:id="username" text="Full Name">
-            <font><Font name="System Bold" size="24.0" /></font>
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
         </Text>
     </HBox>
     <SplitPane orientation="VERTICAL"
-               AnchorPane.bottomAnchor="0"
-               AnchorPane.leftAnchor="0"
-               AnchorPane.rightAnchor="0"
-               AnchorPane.topAnchor="64">
-        <SplitPane>
-            <AnchorPane fx:id="overviewLeft" prefWidth="320" prefHeight="320"/>
-            <AnchorPane fx:id="overviewMid" prefWidth="320" prefHeight="320"/>
-            <AnchorPane fx:id="overviewRight" prefWidth="320" prefHeight="320"/>
+               AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="64">
+        <SplitPane dividerPositions="0.33,0.67">
+            <AnchorPane fx:id="overviewLeft"/>
+            <AnchorPane fx:id="overviewMid"/>
+            <AnchorPane fx:id="overviewRight"/>
         </SplitPane>
         <SplitPane>
-            <AnchorPane fx:id="workspaceLeft" prefWidth="480" prefHeight="320"/>
-            <AnchorPane fx:id="workspaceRight" prefWidth="480" prefHeight="320"/>
+            <AnchorPane fx:id="workspaceLeft"/>
+            <AnchorPane fx:id="workspaceRight"/>
         </SplitPane>
     </SplitPane>
 </AnchorPane>

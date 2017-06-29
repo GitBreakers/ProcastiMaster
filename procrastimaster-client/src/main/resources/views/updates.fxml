@@ -25,7 +25,7 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.UpdatesController"
       fx:id="root">
-    <Text text="Updates" textAlignment="CENTER" wrappingWidth="420">
+    <Text text="Updates" textAlignment="CENTER">
         <font>
             <Font name="System Bold" size="24.0"/>
         </font>

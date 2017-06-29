@@ -23,7 +23,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.PersonalSpaceController"
       fx:id="root">
-    <Text text="Personal space" textAlignment="CENTER" wrappingWidth="420">
+    <Text text="Personal space" textAlignment="CENTER">
         <font>
             <Font name="System Bold" size="24.0"/>
         </font>

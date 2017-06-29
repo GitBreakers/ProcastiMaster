@@ -23,7 +23,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.StartLogController"
       fx:id="root">
-    <Text text="Starting log" textAlignment="CENTER" wrappingWidth="420">
+    <Text text="Starting log" textAlignment="CENTER">
         <font>
             <Font name="System Bold" size="24.0"/>
         </font>
