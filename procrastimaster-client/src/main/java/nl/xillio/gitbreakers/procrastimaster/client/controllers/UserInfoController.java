@@ -15,13 +15,21 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 
 import java.net.URL;
@@ -61,6 +69,36 @@ public abstract class UserInfoController extends AbstractController {
         // Set the width of the info column to the max available width (subtract 2 to hide the horizontal scrollbar).
         infoColumn.prefWidthProperty().bind(tableView.widthProperty().subtract(userColumn.widthProperty()).subtract(2));
 
+        tableView.setRowFactory(tv -> {
+            TableRow<TableEntry> row = new TableRow<TableEntry>();
+
+            data.addListener(new ListChangeListener<TableEntry>() {
+                @Override
+                public void onChanged(Change<? extends TableEntry> c) {
+                    if (c.next() && c.wasAdded() && row.getIndex() > 0 && data.size() > row.getIndex()) {
+                        if (data.get(row.getIndex()).equals(c.getAddedSubList().get(0))) {
+                            blurOut(row);
+                        }
+                    }
+                }
+            });
+            return row;
+        });
+        tableView.setItems(data);
+    }
+
+    private static void blurOut(Node node) {
+        GaussianBlur blur = new GaussianBlur(30.0);
+        node.setEffect(blur);
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(blur.radiusProperty(), 0.0);
+        KeyFrame kf = new KeyFrame(Duration.millis(300), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+    }
+
+    public void addNewEntry(String userName, String entry) {
+        data.add(new TableEntry(userName, entry));
         tableView.setItems(data);
     }
 }

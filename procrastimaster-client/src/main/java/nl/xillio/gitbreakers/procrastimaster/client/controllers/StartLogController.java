@@ -48,4 +48,8 @@ public class StartLogController extends AbstractController {
     public void addOnStartLogPosted(EventHandler<StartLogPostedEvent> handler) {
         startLogPostedEventDispatcher.addHandler(handler);
     }
+
+    public String getFocus(){
+        return this.focusText.getText();
+    }
 }

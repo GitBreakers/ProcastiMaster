@@ -52,4 +52,8 @@ public class UpdatesController extends AbstractController {
     private void postUpdate() {
         LOGGER.info("Posting update");
     }
+
+    public void enableUpdates(){
+        this.updateArea.setDisable(false);
+    }
 }

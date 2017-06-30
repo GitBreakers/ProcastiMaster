@@ -90,5 +90,10 @@ public class OverviewController implements Initializable {
     private void startLogPosted() {
         LOGGER.info("Start log posted");
         loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+
+        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+
+        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"),focus);
     }
 }

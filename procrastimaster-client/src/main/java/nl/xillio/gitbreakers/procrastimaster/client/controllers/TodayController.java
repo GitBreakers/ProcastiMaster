@@ -27,4 +27,8 @@ public class TodayController extends UserInfoController {
                 new TableEntry("Thomas", "Help desk")
         ));
     }
+
+    void postLog(String userName, String log){
+        super.addNewEntry(userName,log);
+    }
 }
