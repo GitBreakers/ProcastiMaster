@@ -54,6 +54,7 @@ public class UpdatesController extends AbstractController {
     }
 
     public void enableUpdates(){
-        this.updateArea.setDisable(false);
+        updateArea.setDisable(false);
+        feedback.setText("");
     }
 }
