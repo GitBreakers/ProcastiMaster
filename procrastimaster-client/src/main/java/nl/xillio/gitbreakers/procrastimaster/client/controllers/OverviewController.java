@@ -15,10 +15,17 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
@@ -76,7 +83,20 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
         // Hook into events.
-        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+    }
+
+    private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
+        LoadedView loadedView = fxmlLoaderService.getView(view);
+        StackPane stackPane = ((StackPane) parentPane);
+        Timeline timeLine = translateAway(stackPane.getChildren().get(0), parentPane);
+        timeLine.setOnFinished(event -> {
+            parentPane.getChildren().setAll(loadedView.getNode());
+            translateBack(stackPane.getChildren().get(0), parentPane);
+        });
+
+        // Save the controller.
+        controllers.put(view, loadedView.getController());
     }
 
     private void loadInto(FXMLLoaderService.View view, Pane parentPane) {
@@ -87,13 +107,77 @@ public class OverviewController implements Initializable {
         controllers.put(view, loadedView.getController());
     }
 
+    private Timeline translateBack(Node node, Node parent) {
+        double width = ((Pane) parent).getWidth();
+        double height = ((Pane) parent).getHeight();
+
+        PerspectiveTransform perspectiveTransform = new PerspectiveTransform();
+        perspectiveTransform.setUlx(width);
+        perspectiveTransform.setUly(0);
+        perspectiveTransform.setUrx(width);
+        perspectiveTransform.setUry(0);
+        perspectiveTransform.setLrx(width);
+        perspectiveTransform.setLry(0);
+        perspectiveTransform.setLlx(width);
+        perspectiveTransform.setLly(0);
+        node.setEffect(perspectiveTransform);
+
+        Timeline timeline = new Timeline();
+
+        KeyValue kv1 = new KeyValue(perspectiveTransform.llxProperty(), 0);
+        KeyFrame kf1 = new KeyFrame(Duration.millis(1000), kv1);
+
+        KeyValue kv2 = new KeyValue(perspectiveTransform.llyProperty(), height);
+        KeyFrame kf2 = new KeyFrame(Duration.millis(1000), kv2);
+
+        KeyValue kv3 = new KeyValue(perspectiveTransform.lryProperty(), height);
+        KeyFrame kf3 = new KeyFrame(Duration.millis(500), kv3);
+
+        KeyValue kv4 = new KeyValue(perspectiveTransform.ulxProperty(), 0);
+        KeyFrame kf4 = new KeyFrame(Duration.millis(1000), kv4);
+
+        timeline.getKeyFrames().add(kf1);
+        timeline.getKeyFrames().add(kf2);
+        timeline.getKeyFrames().add(kf3);
+        timeline.getKeyFrames().add(kf4);
+        timeline.play();
+
+        return timeline;
+    }
+
+    private Timeline translateAway(Node node, Node parent) {
+        double width = ((Pane) parent).getWidth();
+        double height = ((Pane) parent).getHeight();
+
+        PerspectiveTransform perspectiveTrasform = new PerspectiveTransform();
+        perspectiveTrasform.setUlx(0);
+        perspectiveTrasform.setUly(0);
+        perspectiveTrasform.setUrx(width);
+        perspectiveTrasform.setUry(0);
+        perspectiveTrasform.setLrx(width);
+        perspectiveTrasform.setLry(height);
+        perspectiveTrasform.setLlx(0);
+        perspectiveTrasform.setLly(height);
+        node.setEffect(perspectiveTrasform);
+
+        Timeline timeline = new Timeline();
+
+        KeyValue kv = new KeyValue(perspectiveTrasform.lryProperty(), 0.0);
+        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv);
+
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+        return timeline;
+    }
+
+
     private void startLogPosted() {
         LOGGER.info("Start log posted");
-        loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+        loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
-        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
 
-        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"),focus);
+        String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+        ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
     }
 }

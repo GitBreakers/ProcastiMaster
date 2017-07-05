@@ -44,7 +44,7 @@
             <AnchorPane fx:id="overviewRight"/>
         </SplitPane>
         <SplitPane>
-            <AnchorPane fx:id="workspaceLeft"/>
+            <StackPane fx:id="workspaceLeft"/>
             <AnchorPane fx:id="workspaceRight"/>
         </SplitPane>
     </SplitPane>
