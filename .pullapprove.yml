@@ -32,12 +32,12 @@ groups:
       approve_regex: ^(Approved|:\+1:)\s*Code
       enabled: true
 
-  product-manager:
-    required: 1
-    teams:
-      - product-manager
+#  product-manager:
+#    required: 1
+#    teams:
+#      - product-manager
 
-  architect:
-    required: 1
-    teams:
-      - architect
+#  architect:
+#    required: 1
+#    teams:
+#      - architect
