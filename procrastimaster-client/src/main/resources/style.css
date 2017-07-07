@@ -20,11 +20,15 @@
 
 #root {
     -fx-padding: 15px;
+    -fx-background-color: white;
 }
 
 #borderPaneRoot {
-    -fx-background-color:#FF00FF;
+    -fx-background-color:#E1D5E7;
     -fx-padding: 5px 0;
+    -fx-border-style: solid solid hidden solid;
+    -fx-border-width: 1px;
+    -fx-border-color: #999;
 }
 
 .button {
@@ -33,26 +37,66 @@
     -fx-background-radius: 0;
 }
 .button:hover {
-    -fx-background-color: linear-gradient(to bottom, #755282, #1c0038);
+    -fx-background-color: linear-gradient(to bottom, #755282, #1C0038);
 }
 .button:pressed {
-    -fx-background-color: linear-gradient(to top, #755282, #1c0038);
+    -fx-background-color: linear-gradient(to top, #755282, #1C0038);
 }
 
 .text-field {
-    -fx-background-color: #fffded;
+    -fx-background-color: #FFFDED;
     -fx-border-color: #999;
     -fx-border-width: 1px;
+    -fx-end-margin: 10px;
+}
+
+.text-area {
+    -fx-border-width: 1px;
+    -fx-border-color: #999;
+}
+
+.text-area .content {
+    -fx-background-color: #FFFDED;
+    -fx-border-width: 0;
+}
+
+#updateArea {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
 }
 
 #updateArea > .scroll-pane{
-
     -fx-vbar-policy:always; /* Control the vertical ScrollBar (always,needed,never) */
-
 }
 
 .password-field {
-    -fx-background-color: #fffded;
+    -fx-background-color: #FFFDED;
     -fx-border-color: #999;
     -fx-border-width: 1px;
+}
+
+.boxBackground {
+    -fx-background-color: #FFFDED;
+}
+
+.anchorPaneStyling {
+    -fx-margin: 20px;
+}
+
+#profileBar {
+    -fx-background-color: #27004E;
+}
+
+#username {
+    -fx-text-fill: #FFFFFF;
+    -fx-fill: #FFFFFF;
+    -fx-font-family: 'System Bold', Arial, sans-serif;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+#imagePane {
+    -fx-border-style: hidden solid solid solid;
+    -fx-border-width: 1px;
+    -fx-border-color: #999;
 }

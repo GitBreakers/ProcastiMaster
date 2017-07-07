@@ -28,7 +28,7 @@
     <BorderPane>
         <top>
             <StackPane fx:id="borderPaneRoot">
-                <Text text="Starting log" textAlignment="CENTER">
+                <Text styleClass="boxBackground" text="Starting log" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0"/>
                     </font>
@@ -38,14 +38,14 @@
         <center>
             <VBox>
                 <children>
-                    <TextField fx:id="focusText" promptText="Focus Task"/>
-                    <TextArea fx:id="workText" promptText="I am going to.."/>
-                    <TextArea fx:id="helpText" promptText="I need help with.."/>
+                    <TextField styleClass="boxBackground" fx:id="focusText" promptText="Focus Task" />
+                    <TextArea styleClass="boxBackground" fx:id="workText" promptText="I am going to.." />
+                    <TextArea styleClass="boxBackground" fx:id="helpText" promptText="I need help with.." />
                 </children>
             </VBox>
         </center>
         <bottom>
-            <ButtonBar>
+            <ButtonBar style="background: none;">
                 <buttons>
                     <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
                 </buttons>

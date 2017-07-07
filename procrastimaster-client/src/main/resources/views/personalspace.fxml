@@ -38,11 +38,14 @@
             </StackPane>
         </top>
         <center>
-            <ImageView id="boxImage">
-                <image>
-                    <Image url="@../images/logo.jpg"/>
-                </image>
-            </ImageView>
+            <StackPane fx:id="imagePane">
+                <ImageView fx:id="boxImage">
+                    <image>
+                        <Image url="@../images/logo.jpg"/>
+                    </image>
+                </ImageView>
+            </StackPane>
+
         </center>
         <bottom>
             <ButtonBar>

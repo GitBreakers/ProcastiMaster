@@ -37,6 +37,7 @@
     <modules>
         <module>procrastimaster-model</module>
         <module>procrastimaster-server</module>
+        <module>procrastimaster-client</module>
     </modules>
 
     <properties>
