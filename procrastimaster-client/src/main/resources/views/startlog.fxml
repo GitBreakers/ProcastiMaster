@@ -16,6 +16,8 @@
 
 -->
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -23,17 +25,31 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.StartLogController"
       fx:id="root">
-    <Text text="Starting log" textAlignment="CENTER">
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-    </Text>
-    <TextField fx:id="focusText" promptText="Focus Task"/>
-    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64"/>
-    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64"/>
-    <ButtonBar>
-        <buttons>
-            <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
-        </buttons>
-    </ButtonBar>
+    <BorderPane>
+        <top>
+            <StackPane fx:id="borderPaneRoot">
+                <Text text="Starting log" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Text>
+            </StackPane>
+        </top>
+        <center>
+            <VBox>
+                <children>
+                    <TextField fx:id="focusText" promptText="Focus Task"/>
+                    <TextArea fx:id="workText" promptText="I am going to.."/>
+                    <TextArea fx:id="helpText" promptText="I need help with.."/>
+                </children>
+            </VBox>
+        </center>
+        <bottom>
+            <ButtonBar>
+                <buttons>
+                    <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
+                </buttons>
+            </ButtonBar>
+        </bottom>
+    </BorderPane>
 </VBox>

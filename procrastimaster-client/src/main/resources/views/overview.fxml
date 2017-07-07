@@ -39,13 +39,13 @@
     <SplitPane orientation="VERTICAL"
                AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="64">
         <SplitPane dividerPositions="0.33,0.67">
-            <AnchorPane fx:id="overviewLeft"/>
-            <AnchorPane fx:id="overviewMid"/>
-            <AnchorPane fx:id="overviewRight"/>
+            <StackPane fx:id="overviewLeft"/>
+            <StackPane fx:id="overviewMid"/>
+            <StackPane fx:id="overviewRight"/>
         </SplitPane>
         <SplitPane>
-            <StackPane fx:id="workspaceLeft"/>
-            <AnchorPane fx:id="workspaceRight"/>
+            <StackPane fx:id="workspaceLeft" />
+            <StackPane fx:id="workspaceRight" />
         </SplitPane>
     </SplitPane>
 </AnchorPane>

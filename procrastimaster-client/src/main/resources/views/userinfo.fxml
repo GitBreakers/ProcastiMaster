@@ -23,19 +23,27 @@
 <?import nl.xillio.gitbreakers.procrastimaster.client.views.NoHeaderTableView?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="root" spacing="10.0"
       AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0.0">
-    <Text fx:id="title" textAlignment="CENTER">
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-    </Text>
-    <NoHeaderTableView id="table" fx:id="tableView" VBox.vgrow="ALWAYS">
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-        </columnResizePolicy>
-        <columns>
-            <!-- minWidth -1 is the same as Control.USE_COMPUTED_SIZE. -->
-            <TableColumn fx:id="userColumn" minWidth="-1" resizable="false"/>
-            <TableColumn fx:id="infoColumn" resizable="false"/>
-        </columns>
-    </NoHeaderTableView>
+    <BorderPane VBox.vgrow="ALWAYS">
+        <top>
+            <StackPane fx:id="borderPaneRoot">
+                <Text fx:id="title" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Text>
+            </StackPane>
+        </top>
+        <center>
+            <NoHeaderTableView id="table" fx:id="tableView" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <!-- minWidth -1 is the same as Control.USE_COMPUTED_SIZE. -->
+                    <TableColumn fx:id="userColumn" minWidth="-1" resizable="false"/>
+                    <TableColumn fx:id="infoColumn" resizable="false"/>
+                </columns>
+            </NoHeaderTableView>
+        </center>
+    </BorderPane>
 </VBox>

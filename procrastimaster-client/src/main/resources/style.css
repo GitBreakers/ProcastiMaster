@@ -18,6 +18,14 @@
     -fx-font-size: 16px;
 }
 
+#root {
+    -fx-padding: 15px;
+}
+
+#borderPaneRoot {
+    -fx-background-color:#FF00FF;
+}
+
 .button {
     -fx-background-color: linear-gradient(to bottom, #a372b5, #36006e);
     -fx-text-fill: white;
@@ -34,6 +42,12 @@
     -fx-background-color: #fffded;
     -fx-border-color: #999;
     -fx-border-width: 1px;
+}
+
+#updateArea > .scroll-pane{
+
+    -fx-vbar-policy:always; /* Control the vertical ScrollBar (always,needed,never) */
+
 }
 
 .password-field {
