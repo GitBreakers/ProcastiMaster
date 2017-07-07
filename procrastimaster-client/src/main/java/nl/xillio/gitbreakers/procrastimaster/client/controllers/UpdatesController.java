@@ -15,10 +15,14 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import nl.xillio.gitbreakers.procrastimaster.client.events.EventDispatcher;
+import nl.xillio.gitbreakers.procrastimaster.client.events.HelpPressedEvent;
+import nl.xillio.gitbreakers.procrastimaster.client.events.StartLogPostedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,16 +41,25 @@ public class UpdatesController extends AbstractController {
     @FXML
     private Button postButton;
 
+    private final EventDispatcher<HelpPressedEvent> startLogPostedEventDispatcher = new EventDispatcher<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
         helpButton.setOnAction(e -> askHelp());
         postButton.setOnAction(e -> postUpdate());
+        HelpPressedEvent event = new HelpPressedEvent();
+        helpButton.setOnAction(e -> startLogPostedEventDispatcher.fire(event));
     }
 
     private void askHelp() {
         LOGGER.info("Asking for help");
+
+    }
+
+    public void addOnHelpPressed(EventHandler<HelpPressedEvent> handler) {
+        startLogPostedEventDispatcher.addHandler(handler);
     }
 
     private void postUpdate() {

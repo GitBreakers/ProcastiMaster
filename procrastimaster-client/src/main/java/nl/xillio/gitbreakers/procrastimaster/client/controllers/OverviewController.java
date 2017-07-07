@@ -84,6 +84,7 @@ public class OverviewController implements Initializable {
 
         // Hook into events.
         ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).addOnHelpPressed(e -> refreshFXML());
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
@@ -175,5 +176,14 @@ public class OverviewController implements Initializable {
 
         String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
         ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+    }
+
+    private void refreshFXML(){
+        LOGGER.info("DEBUGGING: REFRESHING FXML");
+        Pane p = ((Pane)overviewLeft.getParent().getParent().getParent().getParent().getParent());
+        p.getStylesheets().clear();
+        p.getStylesheets().add("style.css");
+
+
     }
 }
