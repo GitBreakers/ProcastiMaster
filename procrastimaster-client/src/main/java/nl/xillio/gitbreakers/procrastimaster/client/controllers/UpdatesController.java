@@ -19,14 +19,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import nl.xillio.gitbreakers.procrastimaster.client.services.LogFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UpdatesController extends AbstractController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdatesController.class);
+    private static final Logger LOGGER = LogFactory.getLog();
 
     @FXML
     private Text feedback;
@@ -53,7 +53,7 @@ public class UpdatesController extends AbstractController {
         LOGGER.info("Posting update");
     }
 
-    public void enableUpdates(){
+    public void enableUpdates() {
         updateArea.setDisable(false);
         feedback.setText("");
     }

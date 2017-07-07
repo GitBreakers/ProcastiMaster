@@ -30,7 +30,6 @@ import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
-import nl.xillio.gitbreakers.procrastimaster.client.services.RequestHandlerFactory;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.fluent.Request;
@@ -66,16 +65,14 @@ public class OverviewController implements Initializable {
 
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
-    private final RequestHandlerFactory requestHandler;
     private final ObjectMapperService mapperService;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
-    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, RequestHandlerFactory requestHandler, ObjectMapperService mapperService) {
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, ObjectMapperService mapperService) {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
-        this.requestHandler = requestHandler;
         this.mapperService = mapperService;
     }
 

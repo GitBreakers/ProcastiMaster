@@ -15,18 +15,11 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 import nl.xillio.gitbreakers.procrastimaster.server.model.History;
 
 public class HistoryController extends UserInfoController {
     public HistoryController() {
-        super("History", FXCollections.observableArrayList(
-                new TableEntry("Dwight", "Worked on story"),
-                new TableEntry("Luca", "Did a thing"),
-                new TableEntry("Pieter", "Wrote docs"),
-                new TableEntry("Thomas", "Stuff")
-        ));
+        super("History");
     }
 
     public void update(History history) {

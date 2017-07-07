@@ -15,18 +15,11 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Future;
 
 public class FutureController extends UserInfoController {
     public FutureController() {
-        super("Future", FXCollections.observableArrayList(
-                new TableEntry("Dwight", "Monday @ XHQ"),
-                new TableEntry("Luca", "Monday @ XHQ"),
-                new TableEntry("Pieter", "Tuesday @ Home"),
-                new TableEntry("Thomas", "Next week")
-        ));
+        super("Future");
     }
 
     public void update(Future future) {
