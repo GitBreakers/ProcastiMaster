@@ -23,12 +23,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.OverviewController;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProcrastiMaster extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcrastiMaster.class);
+    private OverviewController overview;
 
     public static void main(String[] args) {
         LOGGER.info("Launching {}", ProcrastiMaster.class.getSimpleName());
@@ -41,11 +43,17 @@ public class ProcrastiMaster extends Application {
         Injector injector = Guice.createInjector(new InjectionModule(primaryStage));
         FXMLLoaderService fxmlLoaderService = injector.getInstance(FXMLLoaderService.class);
 
-        Node primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW).getNode();
-        primaryStage.setScene(new Scene((Parent)primaryScene));
-        primaryStage.show();
+        LoadedView view = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW);
+        Node primaryScene = view.getNode();
+        overview = (OverviewController) view.getController();
+        overview.setPrimaryStage(primaryStage);
 
-        primaryStage.setMinWidth(1200);
-        primaryStage.setMinHeight(800);
+        primaryStage.setScene(new Scene((Parent) primaryScene));
+        primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        overview.shutDownProcedure();
     }
 }

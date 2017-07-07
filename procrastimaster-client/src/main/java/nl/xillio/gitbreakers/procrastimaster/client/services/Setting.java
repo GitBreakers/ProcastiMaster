@@ -15,22 +15,26 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+/**
+ * Created by Dwight.Peters on 07-Jul-17.
+ */
+public enum Setting {
+    MAXIMIZED(false),
+    HEIGHT((double) 800),
+    WIDTH((double) 1200);
 
-import javax.inject.Singleton;
+    private final Object defaultValue;
 
-@Singleton
-public class ObjectMapperService {
-    private final ObjectMapper mapper;
-
-    public ObjectMapperService() {
-        mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
+    Setting(Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
-    public ObjectMapper getMapper() {
-        return mapper;
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
     }
 }
