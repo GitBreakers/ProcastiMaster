@@ -15,7 +15,7 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.services;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class RequestHandler {
         this.connection = (HttpURLConnection)request.openConnection();
 
         this.parameter("Content-Type", "application/json");
-        this.parameter("Authorization", "Basic " + Base64.encode("pieter@GitBreakers.nl:root".getBytes()));
+        this.parameter("Authorization", "Basic " + new String(Base64.encodeBase64("pieter@GitBreakers.nl:root".getBytes())));
     }
 
     public <T> Optional<T> get(Class<T> clazz) {
