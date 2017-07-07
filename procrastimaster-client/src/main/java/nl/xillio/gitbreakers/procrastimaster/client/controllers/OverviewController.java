@@ -21,6 +21,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -74,7 +75,7 @@ public class OverviewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Setup header
         username.setText("Welcome " + System.getProperty("user.name"));
-
+        workspaceRight.setEffect(new GaussianBlur(30));
         // Load overview components
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
@@ -167,12 +168,23 @@ public class OverviewController implements Initializable {
         return timeline;
     }
 
+    private static void blurOut(Node node) {
+        GaussianBlur blur = (GaussianBlur)node.getEffect();
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(blur.radiusProperty(), 0.0);
+        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+    }
 
     private void startLogPosted() {
         LOGGER.info("Start log posted");
         loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
         ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+
+        blurOut(workspaceRight);
+
 
         String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
         ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);

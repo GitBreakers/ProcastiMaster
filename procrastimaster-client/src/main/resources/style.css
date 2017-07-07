@@ -24,6 +24,7 @@
 
 #borderPaneRoot {
     -fx-background-color:#FF00FF;
+    -fx-padding: 5px 0;
 }
 
 .button {
