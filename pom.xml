@@ -37,6 +37,7 @@
     <modules>
         <module>procrastimaster-model</module>
         <module>procrastimaster-server</module>
+        <module>procrastimaster-client</module>
     </modules>
 
     <properties>
@@ -48,6 +49,7 @@
         <guice.version>4.1.0</guice.version>
         <log4j.version>2.8.2</log4j.version>
         <jackson.version>2.8.7</jackson.version>
+        <fluent.version>4.5.3</fluent.version>
     </properties>
 
     <dependencyManagement>
@@ -81,6 +83,11 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>fluent-hc</artifactId>
+                <version>${fluent.version}</version>
             </dependency>
 
             <!-- Internal Project Dependencies -->
@@ -182,14 +189,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>build-client</id>
-            <modules>
-                <module>procrastimaster-client</module>
-            </modules>
-        </profile>
-    </profiles>
-
 </project>
