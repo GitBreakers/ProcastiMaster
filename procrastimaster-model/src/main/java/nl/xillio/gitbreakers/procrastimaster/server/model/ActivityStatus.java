@@ -13,13 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.server.model;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
 
-import java.util.Optional;
+public class ActivityStatus {
+    private Update update;
+    private boolean planned;
 
-public interface UserRepository extends AbstractRepository<User> {
 
-    Optional<User> findByEmailIgnoreCase(String email);
+    public Update getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Update update) {
+        this.update = update;
+    }
+
+    public boolean isPlanned() {
+        return planned;
+    }
+
+    public void setPlanned(boolean planned) {
+        this.planned = planned;
+    }
 }

@@ -1,0 +1,39 @@
+<!--
+
+    Copyright (C) 2017 Xillio GitBreakers (GitBreakers@xillio.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.StartLogController"
+      fx:id="root">
+    <Text text="Starting log" textAlignment="CENTER">
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
+    </Text>
+    <TextField fx:id="focusText" promptText="Focus Task"/>
+    <TextArea fx:id="workText" promptText="I am going to.." prefHeight="64"/>
+    <TextArea fx:id="helpText" promptText="I need help with.." prefHeight="64"/>
+    <ButtonBar>
+        <buttons>
+            <Button fx:id="updateButton" mnemonicParsing="false" text="Post" ButtonBar.buttonData="RIGHT"/>
+        </buttons>
+    </ButtonBar>
+</VBox>

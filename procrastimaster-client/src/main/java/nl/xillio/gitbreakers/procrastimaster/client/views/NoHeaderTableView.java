@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.client.views;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.Pane;
 
-import java.util.Optional;
-
-public interface UserRepository extends AbstractRepository<User> {
-
-    Optional<User> findByEmailIgnoreCase(String email);
+public class NoHeaderTableView extends TableView {
+    @Override
+    public void resize(double width, double height) {
+        super.resize(width, height);
+        Pane header = (Pane)lookup("TableHeaderRow");
+        header.setPrefHeight(0);
+        header.setMaxHeight(0);
+        header.setVisible(false);
+    }
 }

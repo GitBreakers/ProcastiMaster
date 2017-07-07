@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface AbstractRepository<T extends BaseEntity> extends CrudRepository<T, Integer> {
-    Optional<T> findTopByCreatedByOrderByCreatedOn(User user);
+    Optional<T> findTopByCreatedByOrderByCreatedOnDesc(User user);
 
     Optional<T> findTopByCreatedOnBetweenAndCreatedBy(Date start, Date end, User creator);
 }

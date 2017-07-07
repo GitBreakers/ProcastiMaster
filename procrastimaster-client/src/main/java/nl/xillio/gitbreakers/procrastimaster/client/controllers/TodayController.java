@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server;
+package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import javafx.collections.FXCollections;
+import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 
-@SpringBootApplication
-public class ProcrastiMasterServer {
-    public static void main(String[] args) {
-        SpringApplication.run(ProcrastiMasterServer.class, args);
+public class TodayController extends UserInfoController {
+    public TodayController() {
+        super("Today", FXCollections.observableArrayList(
+                new TableEntry("Dwight", "Work on story"),
+                new TableEntry("Luca", ":pingpong:"),
+                new TableEntry("Pieter", "Documentation"),
+                new TableEntry("Thomas", "Help desk")
+        ));
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    void postLog(String userName, String log){
+        super.addNewEntry(userName,log);
     }
 }

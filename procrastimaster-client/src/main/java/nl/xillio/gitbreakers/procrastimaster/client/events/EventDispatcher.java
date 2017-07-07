@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.client.events;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface UserRepository extends AbstractRepository<User> {
+public class EventDispatcher<T extends Event> {
+    private List<EventHandler<T>> handlers = new ArrayList<>();
 
-    Optional<User> findByEmailIgnoreCase(String email);
+    public void addHandler(EventHandler<T> handler) {
+        handlers.add(handler);
+    }
+
+    public void fire(T event) {
+        handlers.forEach(h -> h.handle(event));
+    }
 }

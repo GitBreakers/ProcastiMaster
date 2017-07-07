@@ -19,8 +19,9 @@ package nl.xillio.gitbreakers.procrastimaster.client;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import org.slf4j.Logger;
@@ -40,14 +41,14 @@ public class ProcrastiMaster extends Application {
         Injector injector = Guice.createInjector(new InjectionModule(primaryStage));
         FXMLLoaderService fxmlLoaderService = injector.getInstance(FXMLLoaderService.class);
 
-        // Create the primary scene.
-        AnchorPane primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW);
-        Scene scene = new Scene(primaryScene);
+        Node primaryScene = fxmlLoaderService.getView(FXMLLoaderService.View.OVERVIEW).getNode();
+        Scene scene = new Scene((Parent)primaryScene);
         scene.getStylesheets().add("style.css");
-
-        // Set the scene, show the stage.
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+
+        primaryStage.setMinWidth(1200);
+        primaryStage.setMinHeight(800);
     }
 }

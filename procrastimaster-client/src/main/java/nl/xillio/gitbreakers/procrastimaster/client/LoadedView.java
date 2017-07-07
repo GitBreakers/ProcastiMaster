@@ -13,13 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.client;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+import javafx.scene.Node;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.AbstractController;
 
-import java.util.Optional;
+public class LoadedView {
+    private final Node node;
+    private final AbstractController controller;
 
-public interface UserRepository extends AbstractRepository<User> {
+    public LoadedView(Node node, AbstractController controller) {
+        this.node = node;
+        this.controller = controller;
+    }
 
-    Optional<User> findByEmailIgnoreCase(String email);
+    public Node getNode() {
+        return node;
+    }
+
+    public AbstractController getController() {
+        return controller;
+    }
 }

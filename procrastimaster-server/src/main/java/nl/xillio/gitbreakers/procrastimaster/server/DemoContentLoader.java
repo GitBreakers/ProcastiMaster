@@ -47,24 +47,28 @@ public class DemoContentLoader implements CommandLineRunner {
         // Create users
         User pieter = new User();
         pieter.setName("Pieter");
+        pieter.setPassword("root");
         pieter.setEmail("pieter@GitBreakers.nl");
 
         userService.save(pieter, null);
 
         User luca = new User();
         luca.setName("Luca");
+        luca.setPassword("groot");
         luca.setEmail("luca@GitBreakers.nl");
 
         userService.save(luca, pieter);
 
         User sander = new User();
         sander.setName("Sander");
+        sander.setPassword("doed");
         sander.setEmail("sander@GitBreakers.nl");
 
         userService.save(sander, pieter);
 
         User thomas = new User();
         thomas.setName("Thomas");
+        thomas.setPassword("l00t");
         thomas.setEmail("thomas@GitBreakers.nl");
 
         userService.save(thomas, pieter);
@@ -83,6 +87,12 @@ public class DemoContentLoader implements CommandLineRunner {
         planning.setNeedHelpWith("");
         planning.setTodayIWill("Ping Pong");
         planningService.save(planning, pieter);
+
+        update = new Update();
+        update.setNextDay(new Date(System.currentTimeMillis() + DAY));
+        update.setTodayIHave("Created the back-end of procrastimaster!");
+        update.setTodayIHaveNot("Combined the front-end and back-end :-(");
+        updateService.save(update, pieter);
 
         update = new Update();
         update.setNextDay(new Date(System.currentTimeMillis() + 7 * DAY));

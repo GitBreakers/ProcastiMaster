@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.server.repositories;
+package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
+import javafx.collections.FXCollections;
+import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
 
-import java.util.Optional;
-
-public interface UserRepository extends AbstractRepository<User> {
-
-    Optional<User> findByEmailIgnoreCase(String email);
+public class FutureController extends UserInfoController {
+    public FutureController() {
+        super("Future", FXCollections.observableArrayList(
+                new TableEntry("Dwight", "Monday @ XHQ"),
+                new TableEntry("Luca", "Monday @ XHQ"),
+                new TableEntry("Pieter", "Tuesday @ Home"),
+                new TableEntry("Thomas", "Next week")
+        ));
+    }
 }
