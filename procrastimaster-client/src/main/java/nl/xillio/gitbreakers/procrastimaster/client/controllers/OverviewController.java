@@ -29,8 +29,10 @@ import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.RequestHandlerFactory;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
+import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +41,6 @@ import javax.inject.Singleton;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -65,14 +66,16 @@ public class OverviewController implements Initializable {
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
     private final RequestHandlerFactory requestHandler;
+    private final ObjectMapperService mapperService;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
-    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, RequestHandlerFactory requestHandler) {
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, RequestHandlerFactory requestHandler, ObjectMapperService mapperService) {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
         this.requestHandler = requestHandler;
+        this.mapperService = mapperService;
     }
 
     @Override
@@ -91,6 +94,15 @@ public class OverviewController implements Initializable {
         ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
 
         update();
+
+        /*requestHandler.request("activity").get(ActivityStatus.class).ifPresent(a -> {
+            Update update = a.getUpdate();
+            update.setTodayIHave("NOTHING MUCH REALLY");
+            requestHandler.request("activity/update").body(update).post(Object.class);
+            LOGGER.info("Finished posting update!!!!!!");
+        });*/
+
+
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
@@ -186,12 +198,13 @@ public class OverviewController implements Initializable {
 
     private void update() {
         asyncExecutor.execute(() -> {
-            Optional<Overview> overviewOptional = requestHandler.request("overview").get(Overview.class);
-            overviewOptional.ifPresent((Overview overview) -> {
-                ((HistoryController) controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
-                ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
-                ((FutureController) controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
-            });
+
+        Overview overview = Request.Get("http://127.0.0.1:8080/overview").execute().handleResponse(mapperService.getResponseHandler(Overview.class));
+            
+        ((HistoryController) controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
+        ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
+        ((FutureController) controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
+
         });
     }
 }

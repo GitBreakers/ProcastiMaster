@@ -15,14 +15,11 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.services;
 
+import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by Jorn on 07/07/2017.
@@ -39,12 +36,8 @@ public class RequestHandlerFactory {
         this.mapperService = mapperService;
     }
 
-    public RequestHandler request(String endpoint) {
-        try {
-            return new RequestHandler(new URL(BASE_URL + "/" + endpoint), mapperService);
-        } catch (IOException e) {
-            LOGGER.error("Failed to create request: " + e.getMessage());
-        }
+    public Request request(String endpoint) {
+
         return null;
     }
 }
