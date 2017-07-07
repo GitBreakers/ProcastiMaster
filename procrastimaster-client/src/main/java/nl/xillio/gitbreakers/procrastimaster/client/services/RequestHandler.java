@@ -1,11 +1,24 @@
+/**
+ * Copyright (C) 2017 Xillio GitBreakers (GitBreakers@xillio.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package nl.xillio.gitbreakers.procrastimaster.client.services;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.slf4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
@@ -16,37 +29,27 @@ import java.util.Optional;
 public class RequestHandler {
     private static final Logger LOGGER = LogFactory.getLog();
 
-    private HttpURLConnection connection;
+    private final ObjectMapperService mapperService;
+    private final HttpURLConnection connection;
 
-    public RequestHandler(URL request) {
-        try {
-            this.connection = (HttpURLConnection) request.openConnection();
+    public RequestHandler(URL request, ObjectMapperService mapperService) throws IOException {
+        this.mapperService = mapperService;
+        this.connection = (HttpURLConnection)request.openConnection();
 
-            String basicAuth = "Basic " + Base64.encode("pieter@GitBreakers.nl:root".getBytes());
-            this.connection.setRequestProperty("Authorization", basicAuth);
-        } catch (IOException e) {
-            LOGGER.error("Failed to get request: " + e.getMessage());
-        }
-
+        String basicAuth = "Basic " + Base64.encode("pieter@GitBreakers.nl:root".getBytes());
+        this.connection.setRequestProperty("Authorization", basicAuth);
     }
 
-    public <T> Optional<T> get() {
-        try {
-            connection.setRequestMethod("GET");
-            handleResponse();
-
-        } catch (IOException e) {
-            LOGGER.error("Failed to make GET request: " + e.getMessage());
-        }
-        return null;
+    public <T> Optional<T> get(Class<T> clazz) {
+        return handleResponse("GET", clazz);
     }
 
-    public <T> T post() {
-        return null;
+    public <T> Optional<T> post(Class<T> clazz) {
+        return handleResponse("POST", clazz);
     }
 
-    public <T> T put() {
-        return null;
+    public <T> Optional<T> put(Class<T> clazz) {
+        return handleResponse("PUT", clazz);
     }
 
     public RequestHandler body() {
@@ -57,24 +60,13 @@ public class RequestHandler {
         return this;
     }
 
-    private void handleResponse() {
-        if (connection == null) return;
-
+    private <T> Optional<T> handleResponse(String method, Class<T> clazz) {
         try {
-            int statusCode = connection.getResponseCode();
-            String result = connection.getResponseMessage();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+            connection.setRequestMethod(method);
+            return Optional.of(mapperService.getMapper().readValue(connection.getInputStream(), clazz));
         } catch (IOException e) {
             LOGGER.error("Failed to handle response: " + e.getMessage());
         }
+        return Optional.empty();
     }
-
 }
