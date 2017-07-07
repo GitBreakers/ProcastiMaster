@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.LogFactory;
+import nl.xillio.gitbreakers.procrastimaster.client.services.RequestHandlerFactory;
 import org.slf4j.Logger;
 
 public class ProcrastiMaster extends Application {
@@ -46,5 +47,10 @@ public class ProcrastiMaster extends Application {
 
         primaryStage.setMinWidth(1200);
         primaryStage.setMinHeight(800);
+
+        RequestHandlerFactory handler = new RequestHandlerFactory();
+        handler.request("overview").body().get().ifPresent(e -> {
+            LOGGER.info("HELLO!!!!!");
+        });
     }
 }
