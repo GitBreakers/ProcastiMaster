@@ -32,6 +32,7 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.RequestHandlerFactory;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,7 +186,6 @@ public class OverviewController implements Initializable {
         return timeline;
     }
 
-
     private void startLogPosted() {
         LOGGER.info("Start log posted");
         loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
@@ -198,13 +198,14 @@ public class OverviewController implements Initializable {
 
     private void update() {
         asyncExecutor.execute(() -> {
+            Overview overview = Request
+                    .Get("http://127.0.0.1:8080/overview")
+                    .setHeader("Authorization", "Basic " + Base64.encodeBase64String("pieter@GitBreakers.nl:root".getBytes()))
+                    .execute().handleResponse(mapperService.getResponseHandler(Overview.class));
 
-        Overview overview = Request.Get("http://127.0.0.1:8080/overview").execute().handleResponse(mapperService.getResponseHandler(Overview.class));
-            
-        ((HistoryController) controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
-        ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
-        ((FutureController) controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
-
+            ((HistoryController)controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
+            ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
+            ((FutureController)controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
         });
     }
 }

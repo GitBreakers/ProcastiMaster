@@ -37,7 +37,7 @@ public class RequestHandler {
         this.connection = (HttpURLConnection)request.openConnection();
 
         this.parameter("Content-Type", "application/json");
-        this.parameter("Authorization", "Basic " + new String(Base64.encodeBase64("pieter@GitBreakers.nl:root".getBytes())));
+        this.parameter("Authorization", "Basic " + Base64.encodeBase64String("pieter@GitBreakers.nl:root".getBytes()));
     }
 
     public <T> Optional<T> get(Class<T> clazz) {
