@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane minHeight="480" minWidth="320" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.LoginController">>
+            fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.LoginController">
     <VBox AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <HBox alignment="TOP_CENTER" minHeight="180" style="-fx-background-color: #1a1a1a;" VBox.vgrow="ALWAYS">
             <ImageView>
