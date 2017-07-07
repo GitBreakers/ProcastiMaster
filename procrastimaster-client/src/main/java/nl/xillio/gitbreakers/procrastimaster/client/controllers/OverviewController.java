@@ -75,7 +75,6 @@ public class OverviewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Setup header
         username.setText("Welcome " + System.getProperty("user.name"));
-        workspaceRight.setEffect(new GaussianBlur(30));
 
         // Load overview components
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
@@ -172,14 +171,7 @@ public class OverviewController implements Initializable {
         return timeline;
     }
 
-    private static void blurOut(Node node) {
-        GaussianBlur blur = (GaussianBlur)node.getEffect();
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(blur.radiusProperty(), 0.0);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.play();
-    }
+
 
     private void startLogPosted() {
         LOGGER.info("Start log posted");
@@ -187,13 +179,11 @@ public class OverviewController implements Initializable {
 
         ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
 
-        blurOut(workspaceRight);
-
-
         String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
         ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
     }
 
+    //TODO:: REMOVE THIS AFTER WE ARE DONE WITH STYLING (*NEVER*)
     private void refreshFXML(){
         LOGGER.info("DEBUGGING: REFRESHING FXML");
         Pane p = ((Pane)overviewLeft.getParent().getParent().getParent().getParent().getParent());
