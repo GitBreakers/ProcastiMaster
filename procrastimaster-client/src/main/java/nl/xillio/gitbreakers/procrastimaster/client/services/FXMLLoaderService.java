@@ -66,6 +66,7 @@ public class FXMLLoaderService {
     }
 
     public enum View {
+        LOGIN,
         OVERVIEW,
         HISTORY("userinfo", HistoryController.class),
         TODAY("userinfo", TodayController.class),
