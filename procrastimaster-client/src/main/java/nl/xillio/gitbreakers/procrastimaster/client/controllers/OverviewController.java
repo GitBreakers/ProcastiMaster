@@ -83,12 +83,12 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
         // Hook into events.
-        ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
         LoadedView loadedView = fxmlLoaderService.getView(view);
-        StackPane stackPane = ((StackPane) parentPane);
+        StackPane stackPane = ((StackPane)parentPane);
         Timeline timeLine = translateAway(stackPane.getChildren().get(0), parentPane);
         timeLine.setOnFinished(event -> {
             parentPane.getChildren().setAll(loadedView.getNode());
@@ -108,8 +108,8 @@ public class OverviewController implements Initializable {
     }
 
     private Timeline translateBack(Node node, Node parent) {
-        double width = ((Pane) parent).getWidth();
-        double height = ((Pane) parent).getHeight();
+        double width = ((Pane)parent).getWidth();
+        double height = ((Pane)parent).getHeight();
 
         PerspectiveTransform perspectiveTransform = new PerspectiveTransform();
         perspectiveTransform.setUlx(width);
@@ -138,8 +138,8 @@ public class OverviewController implements Initializable {
     }
 
     private Timeline translateAway(Node node, Node parent) {
-        double width = ((Pane) parent).getWidth();
-        double height = ((Pane) parent).getHeight();
+        double width = ((Pane)parent).getWidth();
+        double height = ((Pane)parent).getHeight();
 
         PerspectiveTransform perspectiveTrasform = new PerspectiveTransform();
         perspectiveTrasform.setUlx(0);
@@ -171,9 +171,9 @@ public class OverviewController implements Initializable {
         LOGGER.info("Start log posted");
         loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
-        ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
 
-        String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-        ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
     }
 }
