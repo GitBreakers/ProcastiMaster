@@ -76,6 +76,7 @@ public class OverviewController implements Initializable {
         // Setup header
         username.setText("Welcome " + System.getProperty("user.name"));
         workspaceRight.setEffect(new GaussianBlur(30));
+
         // Load overview components
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
@@ -94,7 +95,10 @@ public class OverviewController implements Initializable {
         Timeline timeLine = translateAway(stackPane.getChildren().get(0), parentPane);
         timeLine.setOnFinished(event -> {
             parentPane.getChildren().setAll(loadedView.getNode());
-            translateBack(stackPane.getChildren().get(0), parentPane);
+            Timeline timeline2 = translateBack(stackPane.getChildren().get(0), parentPane);
+            timeline2.setOnFinished(event2 -> {
+                stackPane.getChildren().get(0).setEffect(null);
+            });
         });
 
         // Save the controller.
