@@ -17,6 +17,7 @@ package nl.xillio.gitbreakers.procrastimaster.client.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.http.client.ResponseHandler;
 
 import javax.inject.Singleton;
 
@@ -31,5 +32,9 @@ public class ObjectMapperService {
 
     public ObjectMapper getMapper() {
         return mapper;
+    }
+
+    public <T> ResponseHandler<T> getResponseHandler(Class<T> clazz) {
+        return response -> getMapper().readValue(response.getEntity().getContent(), clazz);
     }
 }
