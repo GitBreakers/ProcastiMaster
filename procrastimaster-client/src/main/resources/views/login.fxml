@@ -35,8 +35,6 @@
                 <Button fx:id="loginButton" maxWidth="Infinity" text="Login" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
             </children>
         </GridPane>
-        <Label fx:id="feedback" alignment="TOP_CENTER" maxWidth="Infinity" textAlignment="CENTER" textFill="#AD0F0F" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-            Email/Password is incorrect
-        </Label>
+        <Label fx:id="feedback" alignment="TOP_CENTER" maxWidth="Infinity" textAlignment="CENTER" textFill="#AD0F0F" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
     </VBox>
 </AnchorPane>
