@@ -117,29 +117,21 @@ public class OverviewController implements Initializable {
         perspectiveTransform.setUrx(width);
         perspectiveTransform.setUry(0);
         perspectiveTransform.setLrx(width);
-        perspectiveTransform.setLry(0);
+        perspectiveTransform.setLry(height);
         perspectiveTransform.setLlx(width);
-        perspectiveTransform.setLly(0);
+        perspectiveTransform.setLly(height);
         node.setEffect(perspectiveTransform);
 
         Timeline timeline = new Timeline();
 
         KeyValue kv1 = new KeyValue(perspectiveTransform.llxProperty(), 0);
-        KeyFrame kf1 = new KeyFrame(Duration.millis(1000), kv1);
+        KeyFrame kf1 = new KeyFrame(Duration.millis(250), kv1);
 
-        KeyValue kv2 = new KeyValue(perspectiveTransform.llyProperty(), height);
-        KeyFrame kf2 = new KeyFrame(Duration.millis(1000), kv2);
-
-        KeyValue kv3 = new KeyValue(perspectiveTransform.lryProperty(), height);
-        KeyFrame kf3 = new KeyFrame(Duration.millis(500), kv3);
-
-        KeyValue kv4 = new KeyValue(perspectiveTransform.ulxProperty(), 0);
-        KeyFrame kf4 = new KeyFrame(Duration.millis(1000), kv4);
+        KeyValue kv2 = new KeyValue(perspectiveTransform.ulxProperty(), 0);
+        KeyFrame kf2 = new KeyFrame(Duration.millis(250), kv2);
 
         timeline.getKeyFrames().add(kf1);
         timeline.getKeyFrames().add(kf2);
-        timeline.getKeyFrames().add(kf3);
-        timeline.getKeyFrames().add(kf4);
         timeline.play();
 
         return timeline;
@@ -162,10 +154,14 @@ public class OverviewController implements Initializable {
 
         Timeline timeline = new Timeline();
 
-        KeyValue kv = new KeyValue(perspectiveTrasform.lryProperty(), 0.0);
-        KeyFrame kf = new KeyFrame(Duration.millis(1000), kv);
+        KeyValue kv1 = new KeyValue(perspectiveTrasform.llxProperty(), width);
+        KeyFrame kf1 = new KeyFrame(Duration.millis(250), kv1);
 
-        timeline.getKeyFrames().add(kf);
+        KeyValue kv2 = new KeyValue(perspectiveTrasform.ulxProperty(), width);
+        KeyFrame kf2 = new KeyFrame(Duration.millis(250), kv2);
+
+        timeline.getKeyFrames().add(kf1);
+        timeline.getKeyFrames().add(kf2);
         timeline.play();
         return timeline;
     }
