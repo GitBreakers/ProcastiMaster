@@ -17,6 +17,7 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.collections.FXCollections;
 import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
+import nl.xillio.gitbreakers.procrastimaster.server.model.History;
 
 public class HistoryController extends UserInfoController {
     public HistoryController() {
@@ -26,5 +27,12 @@ public class HistoryController extends UserInfoController {
                 new TableEntry("Pieter", "Wrote docs"),
                 new TableEntry("Thomas", "Stuff")
         ));
+    }
+
+    public void update(History history) {
+        this.clear();
+        history.getUpdates().forEach(u -> {
+            this.addNewEntry(u.getCreatedBy().getName(), u.getTodayIHave());
+        });
     }
 }

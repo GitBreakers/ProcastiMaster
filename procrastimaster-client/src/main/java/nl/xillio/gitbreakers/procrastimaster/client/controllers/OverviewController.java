@@ -29,6 +29,8 @@ import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.RequestHandlerFactory;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,7 @@ import javax.inject.Singleton;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -61,13 +64,15 @@ public class OverviewController implements Initializable {
 
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
+    private final RequestHandlerFactory requestHandler;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
-    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor) {
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, RequestHandlerFactory requestHandler) {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
+        this.requestHandler = requestHandler;
     }
 
     @Override
@@ -84,6 +89,8 @@ public class OverviewController implements Initializable {
 
         // Hook into events.
         ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+
+        update();
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
@@ -175,5 +182,16 @@ public class OverviewController implements Initializable {
 
         String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
         ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+    }
+
+    private void update() {
+        asyncExecutor.execute(() -> {
+            Optional<Overview> overviewOptional = requestHandler.request("overview").get(Overview.class);
+            overviewOptional.ifPresent((Overview overview) -> {
+                ((HistoryController) controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
+                ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
+                ((FutureController) controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
+            });
+        });
     }
 }

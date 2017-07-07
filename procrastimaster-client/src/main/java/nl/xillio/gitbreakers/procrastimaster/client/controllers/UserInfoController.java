@@ -101,4 +101,9 @@ public abstract class UserInfoController extends AbstractController {
         data.add(new TableEntry(userName, entry));
         tableView.setItems(data);
     }
+
+    public void clear() {
+        data.clear();
+        tableView.setItems(data);
+    }
 }

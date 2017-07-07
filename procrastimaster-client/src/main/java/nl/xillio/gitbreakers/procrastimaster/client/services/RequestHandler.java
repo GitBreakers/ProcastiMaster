@@ -36,8 +36,8 @@ public class RequestHandler {
         this.mapperService = mapperService;
         this.connection = (HttpURLConnection)request.openConnection();
 
-        String basicAuth = "Basic " + Base64.encode("pieter@GitBreakers.nl:root".getBytes());
-        this.connection.setRequestProperty("Authorization", basicAuth);
+        this.parameter("Content-Type", "application/json");
+        this.parameter("Authorization", "Basic " + Base64.encode("pieter@GitBreakers.nl:root".getBytes()));
     }
 
     public <T> Optional<T> get(Class<T> clazz) {
@@ -56,7 +56,8 @@ public class RequestHandler {
         return this;
     }
 
-    public RequestHandler parameters() {
+    public RequestHandler parameter(String key, String value) {
+        connection.setRequestProperty(key, value);
         return this;
     }
 
