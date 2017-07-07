@@ -18,7 +18,12 @@ package nl.xillio.gitbreakers.procrastimaster.client.services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
+import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.AbstractController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.FutureController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.HistoryController;
+import nl.xillio.gitbreakers.procrastimaster.client.controllers.TodayController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,30 +43,67 @@ public class FXMLLoaderService {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
-    public <T extends Pane> T getView(View view) {
+    public LoadedView getView(View view) {
         LOGGER.info("Loading View: {}", view.name());
         FXMLLoader fxmlLoader = fxmlLoaderFactory.build();
         fxmlLoader.setLocation(view.getResource());
+        fxmlLoader.setController(view.getController());
+
+        // Load the FXML.
+        Node node;
         try {
-            return fxmlLoader.load();
+            node = fxmlLoader.load();
         } catch (IOException e) {
             throw new IllegalStateException("Loading the new view has failed: " + e.getMessage(), e);
         }
+
+        Object controller = fxmlLoader.getController();
+        if (!(controller instanceof AbstractController)) {
+            controller = null;
+        }
+
+        return new LoadedView(node, (AbstractController)controller);
     }
 
     public enum View {
+        LOGIN,
         OVERVIEW,
-        PAST,
-        TODAY,
-        FUTURE;
+        HISTORY("userinfo", HistoryController.class),
+        TODAY("userinfo", TodayController.class),
+        FUTURE("userinfo", FutureController.class),
+        STARTLOG,
+        UPDATES,
+        PERSONALSPACE;
 
-        private final URL resource = getClass().getResource("/views/" + name().toLowerCase() + ".fxml");
+        private final String view;
+        private final Class<? extends AbstractController> controller;
+        private final URL resource;
+
+        View() {
+            view = name().toLowerCase();
+            this.controller = null;
+            resource = getClass().getResource("/views/" + view + ".fxml");
+        }
+
+        View(String view, Class<? extends AbstractController> controller) {
+            this.view = view;
+            this.controller = controller;
+            resource = getClass().getResource("/views/" + view + ".fxml");
+        }
 
         public URL getResource() {
             if (resource == null) {
-                throw new IllegalStateException("No view '" + name() + "' was found");
+                throw new IllegalStateException("No view '" + view + "' was found");
             }
             return resource;
+        }
+
+        public AbstractController getController() {
+            try {
+                return controller == null ? null : controller.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new IllegalStateException("Could not instantiate: " + controller.getSimpleName());
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ public class AsyncExecutor implements AutoCloseable {
      * Execute an action in some point of time.
      *
      * @param action   the action to execute
-     * @param callback this callback is executed once the action completes successfully
+     * @param callback this callback is executed if the action completes successfully
      */
     public void execute(AsyncAction action, AsyncCallback callback) {
         execute(action, callback, this::logError);
@@ -57,48 +57,61 @@ public class AsyncExecutor implements AutoCloseable {
 
     /**
      * Execute an action in some point of time.
-     * The callback runs on the JavaFX Application Thread.
-     *
-     * @param action         the action to execute
-     * @param javaFXCallback this callback is executed once the action completes successfully
-     */
-    public void executeOnPlatform(AsyncAction action, AsyncCallback javaFXCallback) {
-        executeOnPlatform(action, javaFXCallback, this::logError);
-    }
-
-    /**
-     * Execute an action in some point of time.
      *
      * @param action          the action to execute
-     * @param callback        this callback is executed once the action completes successfully
-     * @param failureCallback this callback is executed once the action fails (throws an exception)
+     * @param callback        this callback is executed if the action completes successfully
+     * @param failureCallback this callback is executed if the action fails (throws an exception)
      */
     public void execute(AsyncAction action, AsyncCallback callback, AsyncFailureCallback failureCallback) {
-        executorService.execute(() -> {
-            try {
-                action.run();
-
-                if (callback != null) {
-                    callback.onComplete();
-                }
-            } catch (Exception e) {
-                failureCallback.onFailure(e);
-            }
-        });
+        executorService.execute(() -> doExecute(action, callback, failureCallback));
     }
 
     /**
      * Execute an action in some point of time.
-     * The callbacks run on the JavaFX Application Thread.
+     * The action and callback run on the JavaFX Application Thread.
      *
-     * @param action          the action to execute
-     * @param javaFXCallback  this callback is executed once the action completes successfully
-     * @param failureCallback this callback is executed once the action fails (throws an exception)
+     * @param action the action to execute
      */
-    public void executeOnPlatform(AsyncAction action, AsyncCallback javaFXCallback, AsyncFailureCallback failureCallback) {
-        execute(action, () -> Platform.runLater(javaFXCallback::onComplete), e -> Platform.runLater(() -> failureCallback.onFailure(e)));
+    public void executeOnPlatform(AsyncAction action) {
+        executeOnPlatform(action, null);
     }
 
+    /**
+     * Execute an action in some point of time.
+     * The action and callback run on the JavaFX Application Thread.
+     *
+     * @param action   the action to execute
+     * @param callback this callback is executed if the action completes successfully
+     */
+    public void executeOnPlatform(AsyncAction action, AsyncCallback callback) {
+        executeOnPlatform(action, callback, this::logError);
+    }
+
+    /**
+     * Execute an action in some point of time.
+     * The action and callbacks run on the JavaFX Application Thread.
+     *
+     * @param action          the action to execute
+     * @param callback        this callback is executed if the action completes successfully
+     * @param failureCallback this callback is executed if the action fails (throws an exception)
+     */
+    public void executeOnPlatform(AsyncAction action, AsyncCallback callback, AsyncFailureCallback failureCallback) {
+        Platform.runLater(() -> doExecute(action, callback, failureCallback));
+    }
+
+    private void doExecute(AsyncAction action, AsyncCallback callback, AsyncFailureCallback failureCallback) {
+        try {
+            action.run();
+
+            if (callback != null) {
+                callback.onComplete();
+            }
+        } catch (Exception e) {
+            if (failureCallback != null) {
+                failureCallback.onFailure(e);
+            }
+        }
+    }
 
     private void logError(Exception e) {
         LOGGER.error("Uncaught exception in background thread.", e);

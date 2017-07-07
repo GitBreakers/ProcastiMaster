@@ -18,23 +18,33 @@
 -->
 
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="nl.xillio.gitbreakers.procrastimaster.client.controllers.OverviewController">
-
+    <HBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" maxHeight="50" minHeight="50" alignment="BOTTOM_LEFT">
+        <ImageView id="boxImage" fitHeight="50" fitWidth="50">
+            <Image url="@../images/usericon.png"/>
+        </ImageView>
+        <Text fx:id="username" text="Full Name">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Text>
+    </HBox>
     <SplitPane orientation="VERTICAL"
-               AnchorPane.bottomAnchor="0"
-               AnchorPane.leftAnchor="0"
-               AnchorPane.rightAnchor="0"
-               AnchorPane.topAnchor="0">
-        <SplitPane orientation="HORIZONTAL">
+               AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="64">
+        <SplitPane dividerPositions="0.33,0.67">
             <AnchorPane fx:id="overviewLeft"/>
             <AnchorPane fx:id="overviewMid"/>
             <AnchorPane fx:id="overviewRight"/>
         </SplitPane>
-        <SplitPane orientation="HORIZONTAL">
-            <AnchorPane fx:id="workspaceLeft"/>
+        <SplitPane>
+            <StackPane fx:id="workspaceLeft"/>
             <AnchorPane fx:id="workspaceRight"/>
         </SplitPane>
     </SplitPane>
