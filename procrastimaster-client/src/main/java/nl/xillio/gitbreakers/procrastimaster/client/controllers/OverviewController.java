@@ -32,12 +32,15 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.RequestService;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -177,12 +180,30 @@ public class OverviewController implements Initializable {
 
     private void startLogPosted() {
         LOGGER.info("Start log posted");
-        loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
-        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        // Post startlog to server
+        StartLogController startLog = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG));
 
-        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+        User user = new User();
+        user.setName("Sander");
+
+        Planning planning = new Planning();
+        planning.setCreatedBy(user);
+        planning.setCreatedOn(new Date());
+        planning.setMyFocus(startLog.getFocus());
+        planning.setTodayIWill(startLog.getWork());
+        planning.setNeedHelpWith(startLog.getHelp());
+
+        requestService.post("activity/planning").auth().body(planning).execute().ifPresent(success -> {
+            loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+
+            ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+
+            String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+            ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+
+            update();
+        });
     }
 
     private void update() {

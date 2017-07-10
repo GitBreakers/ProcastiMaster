@@ -52,7 +52,7 @@ public class RequestService {
     }
 
     public RequestService auth() {
-        request.addHeader("Authorization", "Basic " + Base64.encodeBase64String("pieter@GitBreakers.nl:root".getBytes()));
+        request.addHeader("Authorization", "Basic " + Base64.encodeBase64String("sander@GitBreakers.nl:doed".getBytes()));
         return this;
     }
 
