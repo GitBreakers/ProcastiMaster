@@ -20,9 +20,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import nl.xillio.gitbreakers.procrastimaster.client.services.LogFactory;
+import nl.xillio.gitbreakers.procrastimaster.client.services.RequestService;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Update;
 import org.slf4j.Logger;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class UpdatesController extends AbstractController {
@@ -37,6 +40,9 @@ public class UpdatesController extends AbstractController {
     @FXML
     private Button postButton;
 
+    private RequestService requestService;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -50,11 +56,26 @@ public class UpdatesController extends AbstractController {
     }
 
     private void postUpdate() {
-        LOGGER.info("Posting update");
+        Update update = new Update();
+        update.setTodayIHave(getUpdate());
+        update.setNextDay(new Date());
+        update.setTodayIHaveNot("");
+
+        requestService.post("activity/update").auth().body(update).execute().ifPresent(success -> {
+            if (success) LOGGER.info("Update posted");
+        });
     }
 
     public void enableUpdates() {
         updateArea.setDisable(false);
         feedback.setText("");
+    }
+
+    public String getUpdate() {
+        return this.updateArea.getText();
+    }
+
+    public void setRequestService(RequestService service) {
+        this.requestService = service;
     }
 }

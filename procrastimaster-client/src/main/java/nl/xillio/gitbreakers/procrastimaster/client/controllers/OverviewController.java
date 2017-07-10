@@ -32,6 +32,7 @@ import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.RequestService;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Today;
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
 import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import org.slf4j.Logger;
@@ -40,9 +41,9 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -89,11 +90,22 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
-        loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
-        // Hook into events.
-        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        // Check if starting log has been posted
+        User user = new User();
+        user.setName("Sander");
+
+        if (!isStartLogPosted(user)) {
+            loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
+            ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        }
+        else {
+            loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+            ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        }
+
+        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).setRequestService(requestService);
 
         update();
     }
@@ -179,30 +191,27 @@ public class OverviewController implements Initializable {
     }
 
     private void startLogPosted() {
-        LOGGER.info("Start log posted");
 
         // Post startlog to server
         StartLogController startLog = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG));
 
-        User user = new User();
-        user.setName("Sander");
-
         Planning planning = new Planning();
-        planning.setCreatedBy(user);
-        planning.setCreatedOn(new Date());
         planning.setMyFocus(startLog.getFocus());
         planning.setTodayIWill(startLog.getWork());
         planning.setNeedHelpWith(startLog.getHelp());
 
         requestService.post("activity/planning").auth().body(planning).execute().ifPresent(success -> {
+            if (!success) return;
+
             loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
             ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
 
-            String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-            ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+            //String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+            //((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
 
             update();
+            LOGGER.info("Start log posted");
         });
     }
 
@@ -214,5 +223,16 @@ public class OverviewController implements Initializable {
                 ((FutureController)controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
             });
         });
+    }
+
+    private boolean isStartLogPosted(User user) {
+        Optional<Today> today = requestService.get("overview/today").auth().execute(Today.class);
+        if(today.isPresent()) {
+            for (Planning p : today.get().getPlannings())
+                if (p.getCreatedBy().getName().equals(user.getName()))
+                    return true;
+        }
+
+        return false;
     }
 }
