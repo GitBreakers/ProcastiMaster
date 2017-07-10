@@ -30,9 +30,8 @@ import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
 import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.RequestService;
 import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +65,7 @@ public class OverviewController implements Initializable {
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
     private final ObjectMapperService mapperService;
+    private final RequestService requestService;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
@@ -74,6 +74,7 @@ public class OverviewController implements Initializable {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
         this.mapperService = mapperService;
+        this.requestService = new RequestService(mapperService);
     }
 
     @Override
@@ -92,15 +93,6 @@ public class OverviewController implements Initializable {
         ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
 
         update();
-
-        /*requestHandler.request("activity").get(ActivityStatus.class).ifPresent(a -> {
-            Update update = a.getUpdate();
-            update.setTodayIHave("NOTHING MUCH REALLY");
-            requestHandler.request("activity/update").body(update).post(Object.class);
-            LOGGER.info("Finished posting update!!!!!!");
-        });*/
-
-
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
@@ -195,14 +187,11 @@ public class OverviewController implements Initializable {
 
     private void update() {
         asyncExecutor.execute(() -> {
-            Overview overview = Request
-                    .Get("http://127.0.0.1:8080/overview")
-                    .setHeader("Authorization", "Basic " + Base64.encodeBase64String("pieter@GitBreakers.nl:root".getBytes()))
-                    .execute().handleResponse(mapperService.getResponseHandler(Overview.class));
-
-            ((HistoryController)controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
-            ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
-            ((FutureController)controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
+            requestService.get("overview").auth().execute(Overview.class).ifPresent(overview -> {
+                ((HistoryController)controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
+                ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
+                ((FutureController)controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
+            });
         });
     }
 }
