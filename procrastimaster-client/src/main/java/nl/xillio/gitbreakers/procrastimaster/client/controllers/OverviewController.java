@@ -19,21 +19,24 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.Setting;
+import nl.xillio.gitbreakers.procrastimaster.client.services.SettingsHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +46,7 @@ import java.util.ResourceBundle;
  * This controller is responsible for the main layout of the application.
  */
 @Singleton
-public class OverviewController implements Initializable {
+public class OverviewController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(OverviewController.class);
 
     @FXML
@@ -61,13 +64,16 @@ public class OverviewController implements Initializable {
 
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
+    private final SettingsHandler settingsHandler;
+    private Stage stage;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
-    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor) {
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, SettingsHandler settingsHandler) {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
+        this.settingsHandler = settingsHandler;
     }
 
     @Override
@@ -83,12 +89,31 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
         // Hook into events.
-        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+    }
+
+    public void setPrimaryStage(Stage stage) {
+        this.stage = stage;
+
+        stage.setWidth(settingsHandler.getSettingDouble(Setting.WIDTH));
+        stage.setHeight(settingsHandler.getSettingDouble(Setting.HEIGHT));
+        stage.setMaximized(settingsHandler.getSettingBool(Setting.MAXIMIZED));
+    }
+
+    public void shutDownProcedure() {
+        settingsHandler.setSetting(Setting.HEIGHT, stage.getHeight());
+        settingsHandler.setSetting(Setting.WIDTH, stage.getWidth());
+        settingsHandler.setSetting(Setting.MAXIMIZED, stage.isMaximized());
+        try {
+            settingsHandler.saveSettings();
+        } catch (IOException e) {
+            LOGGER.error("Could not save settings", e);
+        }
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
         LoadedView loadedView = fxmlLoaderService.getView(view);
-        StackPane stackPane = ((StackPane)parentPane);
+        StackPane stackPane = ((StackPane) parentPane);
         Timeline timeLine = translateAway(stackPane.getChildren().get(0), parentPane);
         timeLine.setOnFinished(event -> {
             parentPane.getChildren().setAll(loadedView.getNode());
@@ -108,8 +133,8 @@ public class OverviewController implements Initializable {
     }
 
     private Timeline translateBack(Node node, Node parent) {
-        double width = ((Pane)parent).getWidth();
-        double height = ((Pane)parent).getHeight();
+        double width = ((Pane) parent).getWidth();
+        double height = ((Pane) parent).getHeight();
 
         PerspectiveTransform perspectiveTransform = new PerspectiveTransform();
         perspectiveTransform.setUlx(width);
@@ -138,8 +163,8 @@ public class OverviewController implements Initializable {
     }
 
     private Timeline translateAway(Node node, Node parent) {
-        double width = ((Pane)parent).getWidth();
-        double height = ((Pane)parent).getHeight();
+        double width = ((Pane) parent).getWidth();
+        double height = ((Pane) parent).getHeight();
 
         PerspectiveTransform perspectiveTrasform = new PerspectiveTransform();
         perspectiveTrasform.setUlx(0);
@@ -171,9 +196,9 @@ public class OverviewController implements Initializable {
         LOGGER.info("Start log posted");
         loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
-        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        ((UpdatesController) controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
 
-        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+        String focus = ((StartLogController) controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+        ((TodayController) controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
     }
 }
