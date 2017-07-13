@@ -17,6 +17,7 @@ package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import nl.xillio.gitbreakers.procrastimaster.client.services.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PersonalSpaceController extends AbstractController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PersonalSpaceController.class);
+    private static final Logger LOGGER = LogFactory.getLog();
 
     @FXML
     private Button shareButton;

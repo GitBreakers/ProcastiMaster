@@ -24,6 +24,7 @@ import nl.xillio.gitbreakers.procrastimaster.server.services.PlanningService;
 import nl.xillio.gitbreakers.procrastimaster.server.services.UpdateService;
 import nl.xillio.gitbreakers.procrastimaster.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,13 +61,13 @@ public class ActivityController {
     }
 
     @RequestMapping(value = "planning", method = RequestMethod.POST)
-    public void setPlanning(Planning planning, Principal principal) {
+    public void setPlanning(@RequestBody Planning planning, Principal principal) {
         User user = userService.getUser(principal);
         planningService.save(planning, user);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public void setUpdate(Update update, Principal principal) {
+    public void setUpdate(@RequestBody Update update, Principal principal) {
         User user = userService.getUser(principal);
         updateService.save(update, user);
     }

@@ -52,4 +52,6 @@ public class StartLogController extends AbstractController {
     public String getFocus(){
         return this.focusText.getText();
     }
+    public String getWork() { return this.workText.getText(); }
+    public String getHelp() { return this.workText.getText(); }
 }

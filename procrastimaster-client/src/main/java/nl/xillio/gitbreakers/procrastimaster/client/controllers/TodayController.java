@@ -15,20 +15,21 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Today;
 
 public class TodayController extends UserInfoController {
     public TodayController() {
-        super("Today", FXCollections.observableArrayList(
-                new TableEntry("Dwight", "Work on story"),
-                new TableEntry("Luca", ":pingpong:"),
-                new TableEntry("Pieter", "Documentation"),
-                new TableEntry("Thomas", "Help desk")
-        ));
+        super("Today");
     }
 
-    void postLog(String userName, String log){
-        super.addNewEntry(userName,log);
+    public void postLog(String userName, String log) {
+        super.addNewEntry(userName, log);
+    }
+
+    public void update(Today today) {
+        this.clear();
+        today.getPlannings().forEach(o -> {
+            this.addNewEntry(o.getCreatedBy().getName(), o.getTodayIWill());
+        });
     }
 }

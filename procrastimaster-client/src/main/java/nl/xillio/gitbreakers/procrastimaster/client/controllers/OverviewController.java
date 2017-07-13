@@ -29,6 +29,12 @@ import javafx.util.Duration;
 import nl.xillio.gitbreakers.procrastimaster.client.LoadedView;
 import nl.xillio.gitbreakers.procrastimaster.client.services.AsyncExecutor;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.ObjectMapperService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.RequestService;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Overview;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Today;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.Planning;
+import nl.xillio.gitbreakers.procrastimaster.server.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +43,7 @@ import javax.inject.Singleton;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -61,13 +68,17 @@ public class OverviewController implements Initializable {
 
     private final FXMLLoaderService fxmlLoaderService;
     private final AsyncExecutor asyncExecutor;
+    private final ObjectMapperService mapperService;
+    private final RequestService requestService;
 
     private final Map<FXMLLoaderService.View, AbstractController> controllers = new HashMap<>();
 
     @Inject
-    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor) {
+    public OverviewController(FXMLLoaderService fxmlLoaderService, AsyncExecutor asyncExecutor, ObjectMapperService mapperService) {
         this.fxmlLoaderService = fxmlLoaderService;
         this.asyncExecutor = asyncExecutor;
+        this.mapperService = mapperService;
+        this.requestService = new RequestService(mapperService);
     }
 
     @Override
@@ -79,11 +90,24 @@ public class OverviewController implements Initializable {
         loadInto(FXMLLoaderService.View.HISTORY, overviewLeft);
         loadInto(FXMLLoaderService.View.TODAY, overviewMid);
         loadInto(FXMLLoaderService.View.FUTURE, overviewRight);
-        loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
         loadInto(FXMLLoaderService.View.UPDATES, workspaceRight);
 
-        // Hook into events.
-        ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        // Check if starting log has been posted
+        User user = new User();
+        user.setName("Sander");
+
+        if (!isStartLogPosted(user)) {
+            loadInto(FXMLLoaderService.View.STARTLOG, workspaceLeft);
+            ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).addOnStartLogPosted(e -> startLogPosted());
+        }
+        else {
+            loadInto(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+            ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        }
+
+        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).setRequestService(requestService);
+
+        update();
     }
 
     private void loadIntoWithEffect(FXMLLoaderService.View view, Pane parentPane) {
@@ -166,14 +190,49 @@ public class OverviewController implements Initializable {
         return timeline;
     }
 
-
     private void startLogPosted() {
-        LOGGER.info("Start log posted");
-        loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
 
-        ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+        // Post startlog to server
+        StartLogController startLog = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG));
 
-        String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
-        ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+        Planning planning = new Planning();
+        planning.setMyFocus(startLog.getFocus());
+        planning.setTodayIWill(startLog.getWork());
+        planning.setNeedHelpWith(startLog.getHelp());
+
+        requestService.post("activity/planning").auth().body(planning).execute().ifPresent(success -> {
+            if (!success) return;
+
+            loadIntoWithEffect(FXMLLoaderService.View.PERSONALSPACE, workspaceLeft);
+
+            ((UpdatesController)controllers.get(FXMLLoaderService.View.UPDATES)).enableUpdates();
+
+            //String focus = ((StartLogController)controllers.get(FXMLLoaderService.View.STARTLOG)).getFocus();
+            //((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).postLog(System.getProperty("user.name"), focus);
+
+            update();
+            LOGGER.info("Start log posted");
+        });
+    }
+
+    private void update() {
+        asyncExecutor.execute(() -> {
+            requestService.get("overview").auth().execute(Overview.class).ifPresent(overview -> {
+                ((HistoryController)controllers.get(FXMLLoaderService.View.HISTORY)).update(overview.getHistory());
+                ((TodayController)controllers.get(FXMLLoaderService.View.TODAY)).update(overview.getToday());
+                ((FutureController)controllers.get(FXMLLoaderService.View.FUTURE)).update(overview.getFuture());
+            });
+        });
+    }
+
+    private boolean isStartLogPosted(User user) {
+        Optional<Today> today = requestService.get("overview/today").auth().execute(Today.class);
+        if(today.isPresent()) {
+            for (Planning p : today.get().getPlannings())
+                if (p.getCreatedBy().getName().equals(user.getName()))
+                    return true;
+        }
+
+        return false;
     }
 }

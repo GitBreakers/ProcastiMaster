@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.xillio.gitbreakers.procrastimaster.client.controllers;
+package nl.xillio.gitbreakers.procrastimaster.client.services;
 
-import nl.xillio.gitbreakers.procrastimaster.server.model.History;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class HistoryController extends UserInfoController {
-    public HistoryController() {
-        super("History");
+public class LogFactory {
+    private LogFactory() {
     }
 
-    public void update(History history) {
-        this.clear();
-        history.getUpdates().forEach(u -> {
-            this.addNewEntry(u.getCreatedBy().getName(), u.getTodayIHave());
-        });
+    public static Logger getLog() {
+        return LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[2].getClassName());
     }
 }

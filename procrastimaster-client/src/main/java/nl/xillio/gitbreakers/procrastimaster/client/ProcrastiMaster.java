@@ -15,7 +15,6 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client;
 
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
@@ -24,11 +23,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.xillio.gitbreakers.procrastimaster.client.services.FXMLLoaderService;
+import nl.xillio.gitbreakers.procrastimaster.client.services.LogFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ProcrastiMaster extends Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcrastiMaster.class);
+    private static final Logger LOGGER = LogFactory.getLog();
 
     public static void main(String[] args) {
         LOGGER.info("Launching {}", ProcrastiMaster.class.getSimpleName());

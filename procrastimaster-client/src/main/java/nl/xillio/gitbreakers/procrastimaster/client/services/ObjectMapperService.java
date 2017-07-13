@@ -15,8 +15,11 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.services;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.http.client.ResponseHandler;
 
 import javax.inject.Singleton;
 
@@ -27,9 +30,15 @@ public class ObjectMapperService {
     public ObjectMapperService() {
         mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        mapper.configure(JsonGenerator.Feature.IGNORE_UNKNOWN, true);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public ObjectMapper getMapper() {
         return mapper;
+    }
+
+    public <T> ResponseHandler<T> getResponseHandler(Class<T> clazz) {
+        return response -> getMapper().readValue(response.getEntity().getContent(), clazz);
     }
 }

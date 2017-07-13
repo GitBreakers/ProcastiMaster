@@ -15,16 +15,36 @@
  */
 package nl.xillio.gitbreakers.procrastimaster.client.controllers;
 
-import javafx.collections.FXCollections;
-import nl.xillio.gitbreakers.procrastimaster.client.TableEntry;
+import nl.xillio.gitbreakers.procrastimaster.server.model.Future;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class FutureController extends UserInfoController {
     public FutureController() {
-        super("Future", FXCollections.observableArrayList(
-                new TableEntry("Dwight", "Monday @ XHQ"),
-                new TableEntry("Luca", "Monday @ XHQ"),
-                new TableEntry("Pieter", "Tuesday @ Home"),
-                new TableEntry("Thomas", "Next week")
-        ));
+        super("Future");
+    }
+
+    public void update(Future future) {
+        this.clear();
+        future.getWorkingDays().forEach(o -> {
+            this.addNewEntry(o.getUser().getName(), formatDate(o.getWorkingDay()));
+        });
+    }
+
+    private String formatDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("");
+
+        long difference = date.getTime() - (new Date()).getTime();
+        int dayDiff = (int)TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
+
+        if (dayDiff == 0) {
+            return "Tomorrow";
+        } else if (dayDiff < 5) {
+            return (new SimpleDateFormat("EEEE")).format(date);
+        } else {
+            return (new SimpleDateFormat("EEEE d'th of' MMMM")).format(date);
+        }
     }
 }

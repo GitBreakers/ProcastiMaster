@@ -46,15 +46,10 @@ public abstract class UserInfoController extends AbstractController {
     private TableColumn<String, String> infoColumn;
 
     private final String titleString;
-    private final ObservableList<TableEntry> data;
+    private final ObservableList<TableEntry> data = FXCollections.observableArrayList();
 
     protected UserInfoController(String title) {
-        this(title, FXCollections.emptyObservableList());
-    }
-
-    protected UserInfoController(String title, ObservableList<TableEntry> data) {
         this.titleString = title;
-        this.data = data;
     }
 
     @Override
@@ -70,7 +65,7 @@ public abstract class UserInfoController extends AbstractController {
         infoColumn.prefWidthProperty().bind(tableView.widthProperty().subtract(userColumn.widthProperty()).subtract(2));
 
         tableView.setRowFactory(tv -> {
-            TableRow<TableEntry> row = new TableRow<TableEntry>();
+            TableRow<TableEntry> row = new TableRow<>();
 
             data.addListener(new ListChangeListener<TableEntry>() {
                 @Override
@@ -99,6 +94,11 @@ public abstract class UserInfoController extends AbstractController {
 
     public void addNewEntry(String userName, String entry) {
         data.add(new TableEntry(userName, entry));
+        tableView.setItems(data);
+    }
+
+    public void clear() {
+        data.clear();
         tableView.setItems(data);
     }
 }
